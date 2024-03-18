@@ -10,7 +10,7 @@ const Carousel = () => {
   const [ currentPage, setCurrentPage ] = useState(0)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const cardsPerPage = isMobile ? 1 : 4; // Display 1 card on mobile, 5 cards on larger screens
+  const cardsPerPage = isMobile ? 1 : 4; // Display 1 card on mobile, 4 cards on larger screens
   const carouselContainerWidth = cardsPerPage * 250
 
   const handlePrevPage =()=>{

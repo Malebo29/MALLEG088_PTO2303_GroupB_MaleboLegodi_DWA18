@@ -13,7 +13,7 @@ const genreMap = {
     "9":	"Kids and Family"
 }
 
-export const ShowPreview = (show: Show) => {
+const ShowPreview = (show: Show) => {
     return (
         <Card sx={{ maxWidth: 345, 
                 boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', 
@@ -58,3 +58,5 @@ export const ShowPreview = (show: Show) => {
         </Card>
       )
 }
+
+export default ShowPreview
