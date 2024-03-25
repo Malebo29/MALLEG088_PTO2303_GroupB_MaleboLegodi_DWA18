@@ -2,7 +2,7 @@ import { Box, Typography, Button, CssBaseline, AppBar, Toolbar, IconButton, Draw
 import { useShowsContext } from "../../context/ShowsContext";
 import Logo from "../../assets/android-chrome-192x192.png";
 import HeaderMenuIcon from "./HeaderMenuIcon";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../auth/supabase.service";
  
 const drawerWidth = 240;
@@ -10,8 +10,6 @@ type Props = {
     window?: ()=>Window;
 }
  
-
-
 export const Header = (props: Props) =>{
     const { pathname } = useLocation()
     const { mobileMenuOpen, setMobileMenuOpen } = useShowsContext()
@@ -25,6 +23,7 @@ export const Header = (props: Props) =>{
     if( pathname == '/signin' || pathname == '/signup'){
         return null
     }
+
     const drawer = (
         <Container
             onClick={handleDrawerToggle}
@@ -35,7 +34,7 @@ export const Header = (props: Props) =>{
                 justifyContent: 'space-between',
                 backgroundColor: "#E7F1F9"
                 }}>
-                    <Box
+                <Box
                         sx={{
                             display: {xs: 'flex',},
                             flexDirection: 'column',
@@ -72,13 +71,16 @@ export const Header = (props: Props) =>{
                     <Stack
                         sx={{alignItems: "flex-start", gap:"2px"}}
                     >
-                        <a href="#">Manage Subscriptions</a>
+
+                        {sessionStorage.getItem('token') != null ?
+                            <a href="/profile">My Profile</a> :
+                            <a href="/signin">Sign In</a>
+                        }
                         <Divider sx={{width:"100%"}}/>
-                        <a href="#">Redeem Gift Card or Code</a>
+                        <a href="#">Manage Fovourites</a>
+                       
                         <Divider sx={{width:"100%"}}/>
-                        <a href="#">Send Gift Card</a>
-                        <Divider sx={{width:"100%"}}/>
-                        <a href="#">Add Funds</a>
+                        <a href="#">Preferences</a>
                     </Stack>
                 </Box>
                 <Box
@@ -86,15 +88,8 @@ export const Header = (props: Props) =>{
                         display: 'block',
                         justifyItems:'flex-end'
                     }}
-                >
-                    <Button
-                        variant="text"
-                        sx={{backgroundColor: "#A1CBFF", width: "100%", color: "#040736"}}
-                        >
-                            <span>
-                                Login <span>&rarr;</span>
-                            </span>
-                    </Button>
+                    >
+
                 </Box>
         </Container>
     )
@@ -163,7 +158,7 @@ export const Header = (props: Props) =>{
                     sx={{display: {xs:"none", sm:"block"}, backgroundColor: "#A1CBFF", margin: 1, width: "100%", color: "#040736"}}
                     >
                         <span>
-                            Login 
+                            SignIn 
                         </span>
                 </Button>
                     }
