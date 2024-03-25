@@ -18,7 +18,7 @@ function App() {
           <Route path="/show/:showId" element={<ShowDetails />} />
           <Route path="/register" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/forgotPassword" element={<ForgotPasswordForm />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/" element={<ShowList />} />
         </Routes>
       </div>
