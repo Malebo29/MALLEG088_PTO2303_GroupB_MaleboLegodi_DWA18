@@ -15,7 +15,7 @@ const genreMap = {
 
 const ShowPreview = (show: Show) => {
     return (
-        <Card sx={{ maxWidth: 345, 
+        <Card sx={{ maxWidth: 345,
                 boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', 
                 border: '1px solid #E7F1F9', 
                 borderRadius: '10px',

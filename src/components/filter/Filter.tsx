@@ -16,17 +16,17 @@ const Filter = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
             <Typography variant="h6"
-                sx={{ color: "#FFFFFF", mb: 1, fontSize: 15, textAlign: 'center', fontStyle: 'italic' }}
+                sx={{ color: "#000", mb: 1, fontSize: 15, textAlign: 'center', fontStyle: 'italic' }}
                 >Check out our available shows!</Typography>
             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap'}}>
                 <FormControl variant="outlined" size="small" sx={{ minWidth: 200, width: { xs: '100%', sm: 'auto' }}}>
-                    <InputLabel id="sort-label" sx={{color: '#FFFFFF'}}>Sort By</InputLabel>
+                    <InputLabel id="sort-label" sx={{color: '#000'}}>Sort By</InputLabel>
                     <Select
                         labelId="sort-label"
                         value=""
                         onChange={handleSortChange}
                         label="Sort By"
-                        sx={{color: '#FFFFFF'}}
+                        sx={{color: '#000'}}
                     >
                         <MenuItem value=""><em>None</em></MenuItem>
                         <MenuItem value="titleAZ">Title (A-Z)</MenuItem>
@@ -39,11 +39,11 @@ const Filter = () => {
                     variant="outlined"
                     size="small"
                     label="Search"
-                    sx={{ color: '#FFFFFF', minWidth: 200, width: { xs: '100%', sm: 'auto' } }}
+                    sx={{ color: '#000', minWidth: 200, width: { xs: '100%', sm: 'auto' } }}
                     onChange={handleSearchChange}
                     InputProps={{
                         style: {
-                            color: '#FFFFFF'
+                            color: '#000'
                         }
                     }}
                 />

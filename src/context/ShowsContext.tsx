@@ -6,12 +6,10 @@ const ShowsContext = createContext<ShowsContextType | null>(null)
 export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowList: Show[]}> = ({ children, initialShowList })=>{
     const [shows, setShows] = useState(initialShowList)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-    const [sort, setSort] = useState('');
-    const [search, setSearch] = useState('');
+    const [selectedSeason, setSelectedSeason] = useState(1) // Add this line
    
    return (
-    <ShowsContext.Provider value={{ shows, setShows, mobileMenuOpen, setMobileMenuOpen, sort, setSort, search, setSearch }}>
+    <ShowsContext.Provider value={{ shows, setShows, mobileMenuOpen, setMobileMenuOpen, selectedSeason, setSelectedSeason }}>
         { children }
     </ShowsContext.Provider>
    )

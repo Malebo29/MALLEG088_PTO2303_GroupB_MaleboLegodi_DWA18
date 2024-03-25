@@ -7,12 +7,13 @@ import Grid from '@mui/material/Unstable_Grid2'
  
 const ShowList = () => {
     const { shows , setShows, sort, search } = useShowsContext() // Retrieve sort and search from context
+    
     useEffect(() => {
         getShows('https://podcast-api.netlify.app/shows').then(data => {
         setShows(data)
         })
  
-    setTimeout(()=>console.log("fetching data..."), 5000)
+    // setTimeout(()=>console.log("fetching data..."), 5000)
 }, [])
 
         const sortedAndFilteredShows = useMemo(() => {

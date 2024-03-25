@@ -1,27 +1,28 @@
-import { Box, Container, useTheme } from '@mui/material'
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Toolbar } from '@mui/material';
 import { Header } from './components/header/Header';
-import ShowList from './components/show/ShowList';
-import Carousel from './components/carousel/Carousel';
-import Filter from './components/filter/Filter';
+// import ShowList from './components/show/ShowList';
+import ShowDetails from './pages/ShowDetailsPage';
+import { SignUp } from './components/pages/SignUp';
+import { SignIn } from './components/pages/SignIn';
 
 function App() {
-  const theme = useTheme()
-
   return (
-    <Box sx={{ backgroundColor: "#040736", width:"100%", padding: '1rem 0'}}>
-      <Container sx={{ maxWidth: "80%", margin: '0 auto' }}>
+    <Router>
+      <div style={{width:"80%", margin: '0 auto'}} >
         <Header />
-        <Box sx={{height: theme.spacing(2)}} />
-        <Carousel />
-        <Box sx={{height: theme.spacing(2)}} />
-        <Box sx={{height: theme.spacing(2)}} />
-        <Filter />
-        <Box sx={{height: theme.spacing(2)}} />
-        <ShowList />
-      </Container>
-    </Box>
-  )
+        <Toolbar />
+        <Toolbar />
+        <Toolbar />
+        <Routes>
+          <Route path="/show/:showId" element={<ShowDetails />} />
+          {/* <Route path="/" element={<SignIn />} /> */}
+          <Route path="/" element={<SignIn />} />
+          {/* <Route path="/" element={<ShowList />} /> */}
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

@@ -20,17 +20,12 @@ export const CarouselPreview = (show: Show) => {
 
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography sx={{ fontSize: 15, color: '#050A35' }} gutterBottom variant="h5" component="div">
-                    {show.title}
+                    {show.title.slice(0, 15)+"..."}
                 </Typography>
     
                 <Stack sx={{ mb: 1 }} direction="row" spacing={1}>
                     <Chip color="primary" label={`Seasons: ${show.seasons}`} size="small" sx={{backgroundColor: '#2DD699', color: '#040736'}}/>
                 </Stack>
-
-    
-                <Typography sx={{ mt: 1, fontSize: 12, color: '#050A35' }}>
-                Updated:&nbsp;{new Date(show.updated).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                </Typography>
         </CardContent>        
     </Card>
   )
