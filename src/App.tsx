@@ -1,24 +1,25 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Toolbar } from '@mui/material';
 import { Header } from './components/header/Header';
-// import ShowList from './components/show/ShowList';
 import ShowDetails from './pages/ShowDetailsPage';
-import { SignUp } from './components/pages/SignUp';
-import { SignIn } from './components/pages/SignIn';
+import { SignIn } from './pages/SignIn';
+import ShowList from './components/show/ShowList';
+import { SignUp } from './pages/SignUp';
 
 function App() {
   return (
     <Router>
       <div style={{width:"80%", margin: '0 auto'}} >
-        <Header />
+        <Header /> 
         <Toolbar />
         <Toolbar />
         <Toolbar />
         <Routes>
           <Route path="/show/:showId" element={<ShowDetails />} />
-          {/* <Route path="/" element={<SignIn />} /> */}
-          <Route path="/" element={<SignIn />} />
-          {/* <Route path="/" element={<ShowList />} /> */}
+          <Route path="/register" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/forgotPassword" element={<ForgotPasswordForm />} />
+          <Route path="/" element={<ShowList />} />
         </Routes>
       </div>
     </Router>

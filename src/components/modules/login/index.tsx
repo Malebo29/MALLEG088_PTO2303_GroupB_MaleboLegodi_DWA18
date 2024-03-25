@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
 import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled } from '@mui/material'
-import { useShowsContext } from '../../../context/ShowsContext'
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -31,7 +30,7 @@ const SigninForm = () => {
         setError } = useForm();
     
     const navigate = useNavigate()
-const { token, setToken } = useShowsContext()
+    // const { token, setToken } = useShowsContext()
 
     const onSubmit: SubmitHandler<FormFields> = async(formData)=>{
         try {
@@ -83,7 +82,8 @@ const { token, setToken } = useShowsContext()
     { errors.root && <Typography>{errors.root.message}</Typography>}
     <Stack direction="row" spacing={2} justifyContent="center">
         <Button type='submit' disabled={isSubmitting}>{isSubmitting ? "Submitting...": "Sign In"}</Button>
-        <Button href="#text-buttons">Forgot Password</Button>
+        <Button
+            onClick={() => navigate('/forgot-password')}> Forgot Password</Button>
     </Stack>
     
     <p>Don’t have a profile? <Link href="/signup">Sign up</Link></p>

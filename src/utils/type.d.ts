@@ -7,6 +7,9 @@ export type ShowsContextType = {
 
     selectedSeason: number;
     setSelectedSeason: React.Dispatch<React.SetStateAction<number>>;
+
+    token: string;
+    setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type Show ={
