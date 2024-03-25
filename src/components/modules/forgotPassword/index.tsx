@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { supabase } from '../../../auth/supabase.service'
-import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled } from '@mui/material'
+import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Container, styled } from '@mui/material'
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -50,7 +50,7 @@ const ForgotPasswordForm = () => {
             >
                 <FormControl variant="filled" fullWidth>
                     <InputLabel htmlFor="component-filled">Email Address</InputLabel>
-                    <FilledInput {...register('email')} defaultValue="" />
+                    <FilledInput {...register('email')} defaultValue="Your email" />
                 </FormControl>
 
                 {errors.root && <Typography>{errors.root.message}</Typography>}
