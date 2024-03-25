@@ -2,21 +2,29 @@ import { Box, Typography, Button, CssBaseline, AppBar, Toolbar, IconButton, Draw
 import { useShowsContext } from "../../context/ShowsContext";
 import Logo from "../../assets/android-chrome-192x192.png";
 import HeaderMenuIcon from "./HeaderMenuIcon";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "../../auth/supabase.service";
  
 const drawerWidth = 240;
 type Props = {
     window?: ()=>Window;
 }
  
+
+
 export const Header = (props: Props) =>{
+    const { pathname } = useLocation()
     const { mobileMenuOpen, setMobileMenuOpen } = useShowsContext()
     const { window } = props
     const handleDrawerToggle = ()=>{
         setMobileMenuOpen(!mobileMenuOpen)
     };
     
+
     const container = window !== undefined ? ()=> window().document.body: undefined;
- 
+    if( pathname == '/signin' || pathname == '/signup'){
+        return null
+    }
     const drawer = (
         <Container
             onClick={handleDrawerToggle}
@@ -90,7 +98,8 @@ export const Header = (props: Props) =>{
                 </Box>
         </Container>
     )
- 
+    
+    const navigate = useNavigate()
     return (
         <Box sx={{display: "flex"}}>
             <CssBaseline />
@@ -135,14 +144,30 @@ export const Header = (props: Props) =>{
                         justifyItems:'flex-end'
                     }}
                 >
-                    <Button
+                    { sessionStorage.getItem('token') != null ? <Button
                         variant="text"
                         sx={{display: {xs:"none", sm:"block"}, backgroundColor: "#A1CBFF", margin: 1, width: "100%", color: "#040736"}}
+                        onClick={()=>{
+                            supabase.auth.signOut()
+                            sessionStorage.removeItem('token')
+                        
+                        }}
                         >
                             <span>
-                                Login <span>&rarr;</span>
+                              Signout
                             </span>
-                    </Button>
+                    </Button>:
+                    <Button
+                    variant="text"
+                    onClick={()=> navigate('/signin')}
+                    sx={{display: {xs:"none", sm:"block"}, backgroundColor: "#A1CBFF", margin: 1, width: "100%", color: "#040736"}}
+                    >
+                        <span>
+                            Login 
+                        </span>
+                </Button>
+                    }
+                    
 
                 </Box>
                 </Toolbar>
