@@ -20,7 +20,7 @@ export const Header = (props: Props) =>{
     
 
     const container = window !== undefined ? ()=> window().document.body: undefined;
-    if( pathname == '/signin' || pathname == '/signup'){
+    if( pathname == '/signin' || pathname == '/register' || pathname === '/forgot-password' || pathname === '/user-profile'  || pathname === '/settings'){
         return null
     }
 
