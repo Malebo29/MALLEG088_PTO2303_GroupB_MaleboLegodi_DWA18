@@ -1,6 +1,6 @@
 import ForgotPasswordForm from '../components/modules/forgotPassword';
 
-export const SignIn = () => {
+export const ForgotPassword = () => {
   
   return (
     <ForgotPasswordForm />

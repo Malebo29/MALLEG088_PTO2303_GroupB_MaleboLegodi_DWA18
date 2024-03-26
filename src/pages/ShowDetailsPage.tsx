@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Episode, Season, ShowDetail } from '../utils/type';
+import { Episode, ShowDetail } from '../utils/type';
 import { useShowsContext } from '../context/ShowsContext';
 import { Button, Select, MenuItem, FormControl, InputLabel, Container, Box, CardMedia } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
