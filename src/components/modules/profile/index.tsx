@@ -1,68 +1,43 @@
 import { useState } from 'react';
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Typography } from '@mui/material';
+import { Box, Button, FilledInput, FormControl, FormControlLabel, FormLabel, Grid, InputLabel, Radio, RadioGroup, Switch, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const UserProfileForm = () => {
-  const [playbackSpeed, setPlaybackSpeed] = useState('1.0');
-  const [autoDownload, setAutoDownload] = useState(false);
-  const [notifications, setNotifications] = useState(false);
-
-  const handlePlaybackSpeedChange = (event) => {
-    setPlaybackSpeed(event.target.value);
-  };
-
-  const handleAutoDownloadChange = (event) => {
-    setAutoDownload(event.target.checked);
-  };
-
-  const handleNotificationsChange = (event) => {
-    setNotifications(event.target.checked);
-  };
 
   return (
     <Box sx={{ mt: 4, mb: 4, width: '80%', margin: '0 auto' }}>
       <Typography variant="h4" align="center">User Profile</Typography>
 
-      {/* Logout Option */}
-      <Box sx={{ mt: 2 }}>
-        <Button variant="contained" color="secondary">Logout</Button>
-      </Box>
+      <form>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Box sx={{ mt: 2 }}>
+              <FormControl variant="filled" fullWidth>
+                <InputLabel htmlFor="component-filled">First Name</InputLabel>
+                <FilledInput />
+              </FormControl>
+            </Box>
+          </Grid>
 
-      {/* Notifications */}
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="h6">Notifications</Typography>
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Playback Speed</FormLabel>
-          <RadioGroup
-            aria-label="playback-speed"
-            value={playbackSpeed}
-            onChange={handlePlaybackSpeedChange}
-          >
-            <FormControlLabel value="0.5" control={<Radio />} label="0.5x" />
-            <FormControlLabel value="1.0" control={<Radio />} label="1.0x" />
-            <FormControlLabel value="1.5" control={<Radio />} label="1.5x" />
-            <FormControlLabel value="2.0" control={<Radio />} label="2.0x" />
-          </RadioGroup>
-        </FormControl>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={autoDownload}
-              onChange={handleAutoDownloadChange}
-            />
-          }
-          label="Auto Download"
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={notifications}
-              onChange={handleNotificationsChange}
-            />
-          }
-          label="Notifications"
-        />
-      </Box>
+          <Grid item xs={12} sm={6}>
+            <Box sx={{ mt: 2 }}>
+              <FormControl variant="filled" fullWidth>
+                <InputLabel htmlFor="component-filled">Last Name</InputLabel>
+                <FilledInput />
+              </FormControl>
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Box sx={{ mt: 2 }}>
+            <Button variant="contained" type='submit'>Save</Button>
+        </Box>
+
+        <Box sx={{ mt: 2 }}>
+          <Button variant="contained" color="secondary">Reset Password</Button>
+        </Box>
+        
+      </form>
 
       {/* My Favourites */}
       <Box sx={{ mt: 2 }}>
@@ -71,7 +46,7 @@ const UserProfileForm = () => {
 
       {/* Settings */}
       <Box sx={{ mt: 2 }}>
-        <Button variant="contained" component={Link} to="/settings">Settings</Button>
+        <Button variant="contained" component={Link} to="/settings">Manage Settings</Button>
       </Box>
     </Box>
   );

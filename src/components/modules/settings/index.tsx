@@ -1,10 +1,20 @@
 import { useState } from 'react';
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Typography } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 const Settings = () => {
   const [autoPlay, setAutoPlay] = useState(false);
   const [notifications, setNotifications] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState('1.0');
+  const [autoDownload, setAutoDownload] = useState(false);
+
+  const handlePlaybackSpeedChange = (event) => {
+    setPlaybackSpeed(event.target.value);
+  };
+
+  const handleAutoDownloadChange = (event) => {
+    setAutoDownload(event.target.checked);
+  };
 
   const handleAutoPlayChange = (event) => {
     setAutoPlay(event.target.checked);
@@ -28,6 +38,7 @@ const Settings = () => {
       {/* General */}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h6">General:</Typography>
+        
         <FormControlLabel
           control={
             <Switch
@@ -37,6 +48,17 @@ const Settings = () => {
           }
           label="Auto Play Next Episode"
         />
+
+        <FormControlLabel
+          control={
+            <Switch
+              checked={autoDownload}
+              onChange={handleAutoDownloadChange}
+            />
+          }
+          label="Auto Download"
+        />
+
         <FormControlLabel
           control={
             <Switch
@@ -46,10 +68,34 @@ const Settings = () => {
           }
           label="Allow Notifications"
         />
+
         <Typography variant="body2">Get updates on your favourite shows</Typography>
-        <Button variant="contained">Reset</Button>
-        <Typography variant="body2">Reset tooltips for various elements of the App</Typography>
       </Box>
+
+           {/* Playback speed box */}
+        <Box sx={{ mt: 2 }}>
+        
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Playback Speed</FormLabel>
+          <RadioGroup
+            aria-label="playback-speed"
+            value={playbackSpeed}
+            onChange={handlePlaybackSpeedChange}
+          >
+            <FormControlLabel value="0.5" control={<Radio />} label="0.5x" />
+            <FormControlLabel value="1.0" control={<Radio />} label="1.0x" />
+            <FormControlLabel value="1.5" control={<Radio />} label="1.5x" />
+            <FormControlLabel value="2.0" control={<Radio />} label="2.0x" />
+          </RadioGroup>
+        </FormControl>
+      </Box>
+
+      <Box sx={{ mt: 2 }}>
+        <Tooltip title="Reset your progress which will remove all your listening history">
+            <Button variant="contained">Reset</Button>
+        </Tooltip>
+      </Box>
+
 
       {/* My Favourites */}
       <Box sx={{ mt: 2 }}>

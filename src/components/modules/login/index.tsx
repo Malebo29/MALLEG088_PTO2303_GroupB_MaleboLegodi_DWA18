@@ -86,7 +86,7 @@ const SigninForm = () => {
             onClick={() => navigate('/forgot-password')}> Forgot Password</Button>
     </Stack>
     
-    <p>Don’t have a profile? <Link href="/signup">Sign up</Link></p>
+    <p>Don’t have a profile? <Link to="/register">Sign up</Link></p>
     </Box>
     </StyledContainer>
   )

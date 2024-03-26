@@ -14,8 +14,14 @@ const StyledContainer = styled(Container)({
 });
 
 const schema = z.object({
-    email: z.string().email(),
-    password: z.string().min(8)
+    firstName: z.string().min(2, { message: "Username must be at least 3 characters"}),
+    lastName: z.string().min(2, { message: "Username must be at least 3 characters"}),
+    email: z.string().min(1, {message: "Email is required"}).email('Invalid email address'),
+    password: z.string().min(8, { message: "Password must be at least 8 characters"}),
+    confirmPassword: z.string().min(8, { message: "Password must be at least 8 characters"})
+}).refine((data)=> data.password == data.confirmPassword, {
+  path: ['confirmPassword'],
+  message: "Passwords do not match"
 })
 
 type FormFields = z.infer<typeof schema>
@@ -34,14 +40,21 @@ const SignUpForm = () => {
         try {
             const { data, error } = await supabase.auth.signUp({
                 email: formData.email,
-                password: formData.password
+                password: formData.password,
+                options: {
+                  emailRedirectTo: 'http://localhost:5173/login',
+                  data: {
+                    first_name: formData.firstName,
+                    last_name: formData.lastName
+                  }
+                }
             });
 
             if( error ){
                 throw new AuthError(error.message, error.status)
             }
-
-            navigate("/login")
+            // alert('Please check your email inbox to confirm your registration')
+            navigate("/")
         } catch (error) {
             console.log(error)
             setError("root", {
@@ -137,13 +150,13 @@ const SignUpForm = () => {
 
               <Box sx={{ mt: 2 }}>
                 <p>By clicking "Create Account", you agree to accept our 
-                   <Link href="https://www.codespace.co.za/registration/"> terms of service </Link>
-                    and agree to our <Link href="https://www.codespace.co.za/about/">privacy policy</Link>.</p>
+                   <Link to="https://www.codespace.co.za/registration/"> terms of service </Link>
+                    and agree to our <Link to="https://www.codespace.co.za/about/">privacy policy</Link>.</p>
               <hr />
               </Box>
 
               <Box sx={{ mt: 2 }}>
-                <p>Need help? Visit our <Link href="https://www.codespace.co.za/programs/">help center</Link> via Codespace.</p>
+                <p>Need help? Visit our <Link to="https://www.codespace.co.za/programs/">help center</Link> via Codespace.</p>
               </Box>
       </Box>
   </StyledContainer>
