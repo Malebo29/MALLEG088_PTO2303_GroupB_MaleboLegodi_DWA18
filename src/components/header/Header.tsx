@@ -1,6 +1,7 @@
 import { Box, Typography, Button, CssBaseline, AppBar, Toolbar, IconButton, Drawer, Divider, Stack, Container } from "@mui/material";
 import { useShowsContext } from "../../context/ShowsContext";
 import Logo from "../../assets/android-chrome-192x192.png";
+// import Logo from "../../assets/android-chrome-192x192.png";
 import HeaderMenuIcon from "./HeaderMenuIcon";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../auth/supabase.service";
@@ -116,13 +117,6 @@ export const Header = (props: Props) =>{
                         alt="Podcast"
                         loading="lazy"
                         />
-                    <Typography
-                      variant="h6"
-                      component="div"
-                      sx={{color: "#040736", fontSize: 25}}
-                      >
-                        Streamer Podcast
-                      </Typography>
                       <IconButton
                         color="inherit"
                         aria-label="open drawer"

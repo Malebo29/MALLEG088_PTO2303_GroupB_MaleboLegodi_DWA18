@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
-import { Header } from './components/header/Header';
 import ShowDetails from './pages/ShowDetailsPage';
 import { SignIn } from './pages/SignIn';
 import ShowList from './components/show/ShowList';
@@ -8,6 +7,7 @@ import { SignUp } from './pages/SignUp';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { UserProfile } from './pages/UserProfile';
 import { SettingsPage } from './pages/SettingsPage';
+import Header from './components/header/Header-rework';
 
 function App() {
   const theme = useTheme()

@@ -67,19 +67,18 @@ const SignUpForm = () => {
     }
   return (
     <StyledContainer maxWidth="xs">
-      <Box sx={{ mt: 5, mb: 5 }}>
+      <Box sx={{ mt: 5, mb: 5, pt: '150px' }}>
         
         <Typography 
           variant="h6"
           align="center"
           sx={{
             mt: 10, 
-            color: 'green', 
+            color: '#2DD699', 
             fontSize: '1em', 
             fontWeight: 'bold', 
             fontStyle: 'italic', 
             textAlign: 'center', 
-            // textTransform: 'uppercase',
             lineHeight: '1.3em', 
             letterSpacing: '0.1em'
           }}
@@ -87,7 +86,7 @@ const SignUpForm = () => {
         
         <form onSubmit={handleSubmit(onSubmit)}>
           
-          <Grid container spacing={2}>
+          <Grid container spacing={0}>
 
             <Grid item xs={12} sm={6}>
               <Box sx={{ mt: 2 }}>
