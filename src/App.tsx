@@ -5,6 +5,7 @@ import ShowDetails from './pages/ShowDetailsPage';
 import { SignIn } from './pages/SignIn';
 import ShowList from './components/show/ShowList';
 import { SignUp } from './pages/SignUp';
+import { ForgotPassword } from './pages/ForgotPassword';
 
 function App() {
   return (
