@@ -67,7 +67,7 @@ const SignUpForm = () => {
     }
   return (
     <StyledContainer maxWidth="xs">
-      <Box sx={{ mt: 5, mb: 5, pt: '150px' }}>
+      <Box sx={{ mt: 5, mb: 5, pt: '130px' }}>
         
         <Typography 
           variant="h6"

@@ -6,7 +6,7 @@ import Filter from '../components/filter/Filter'
 const HomePage = () => {
   const theme = useTheme()
   return (
-    <Container sx={{ backgroundColor: "#040736", maxWidth: "80%", margin: '0 auto' }}>
+    <Container sx={{ maxWidth: "80%", margin: '0 auto' }}>
       <Box sx={{height: theme.spacing(2)}} />
       <Carousel />
       <Box sx={{height: theme.spacing(2)}} />

@@ -1,20 +1,59 @@
 import { useState, useEffect } from 'react';
-import { Episode, ShowDetail } from '../utils/type';
+import { Episode, FavoriteProps, ShowDetail } from '../utils/type';
 import { useShowsContext } from '../context/ShowsContext';
-import { Button, Select, MenuItem, FormControl, InputLabel, Container, Box, CardMedia } from '@mui/material';
+import { Button, Select, MenuItem, FormControl, InputLabel, Container, Box, CardMedia, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getShow } from '../api'; // Import getShow
 import { Favorite } from '@mui/icons-material';
+import { supabase } from '../auth/supabase.service';
+import { Store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
 
 const ShowDetails = () => {
   const navigate = useNavigate();
   const { showId } = useParams<{ showId: string }>();
   const { selectedSeason, setSelectedSeason } = useShowsContext();
   const [show, setShow] = useState<ShowDetail | null>(null);
-  const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [episodes, setEpisodes] = useState<Episode[]>([])
 
   const [loading, setLoading] = useState(true);
   
+  const handleAddToFavourates = async (
+      episodeId: number, 
+      episodeTitle: string, 
+      episodeDescription: string,
+      seasonId: number,
+      seasonImage: string,
+      showTitle: string,
+      lastUpdatedShowDate: string,
+      )=>{
+      const { error } = await supabase
+      .from('user_favourates')
+      .insert([{
+        episodeId: episodeId,
+        episodeTitle: episodeTitle,
+        episodeDescription: episodeDescription,
+        seasonId: seasonId,
+        seasonImage,
+        showTitle: showTitle,
+        lastUpdatedShowDate: lastUpdatedShowDate,
+        userId: (await supabase.auth.getUser()).data.user?.id
+      }])
+
+      if(error) console.log(error.message)
+      
+      Store.addNotification({
+        title: <Typography variant='h5'>Add to Favourates</Typography>,
+        type:'success',
+        container: 'center',
+        message:'Added successfully to favourates ',
+        animationIn: ['animated', 'fadeIn'],
+        animationOut: ['animated', 'fadeOut'],
+        dismiss: {duration: 4000, onScreen: true},
+      })
+  }
+
 
   useEffect(() => {
     const fetchShow = async () => {
@@ -80,11 +119,12 @@ const ShowDetails = () => {
             Episode {episode.episode}: {episode.title}
           </h3>
           <p>{episode.description}</p>
+
           <Button
-            startIcon={<Favorite />}
-            onClick={() => {
-              // handle favourite
-            }}
+            startIcon={true ? <Favorite sx={{color: "gray"}} /> : <Favorite />}
+            onClick={()=>handleAddToFavourates(episode.episode, episode.title,
+               episode.description, selectedSeason, show.seasons[selectedSeason].image,
+               show.title, show.updated.toString() )}
           >
           </Button>
 

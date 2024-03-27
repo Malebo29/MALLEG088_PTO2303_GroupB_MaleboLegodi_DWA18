@@ -1,32 +1,29 @@
-import { Box, Button, ButtonGroup, Chip, Container, Typography } from '@mui/material'
-import React from 'react'
+import { Box, Button, CardMedia, Chip, Typography } from '@mui/material'
+import { FavoriteProps } from '../../../utils/type'
 
-const Favourite = () =>{
+const Favourate = (episode: FavoriteProps) =>{   
     return (
         <Box sx={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
-            <Chip label={'Season: 6'}/>
-            <Typography variant='h6'>Show name</Typography>
-            <Typography variant='h6'>Season name</Typography>
-            <Typography variant='body2'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</Typography>
+            <Chip label={`Season: ${episode.seasonId}`}/>
+            <CardMedia
+                component="img"
+                image={episode.seasonImage}
+                alt={episode.seasonImage}
+                sx={{ width: '20%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)' }}
+            />
+            <Typography variant='h6'>{episode.showTitle}</Typography>
+            <Typography variant='h6'>{episode.episodeTitle}</Typography>
+            <Typography variant='body2'>{episode.episodeDescription}</Typography>
             <Box sx={{display:'flex', justifyContent:'space-between'}}>
                 <Button>Play</Button>
-                <Typography variant='body2'>Updated date of show</Typography>
+                <Typography variant='body2'>{episode.lastUpdatedShowDate}</Typography>
             </Box>
             <Box sx={{display:'flex', justifyContent:'space-between'}}>
                 <Button>Remove</Button>
-                <Typography variant='body2'>Added to favourates date</Typography>
+                <Typography variant='body2'>{episode.favoredDate}</Typography>
             </Box>
         </Box>
     )
 }
 
-const Favourates = () => {
-  return (
-    <Container>
-        {/* map through favourites and return each card  */}
-    </Container>
-  )
-}
-
-export default Favourates
+export default Favourate

@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Box } from '@mui/material';
 import Logo from '../../assets/android-chrome-144x144.png';
 import { supabase } from "../../auth/supabase.service";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 
 export default function Header() {
@@ -39,12 +39,14 @@ export default function Header() {
     }}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
-            <img
+          <Link to={'/'}>
+              <img
               src={Logo}
               width={80}
               alt="Podcast"
               loading="lazy"
-            />
+              />
+          </Link>
           </Box>
         {user ? (
           <div>
@@ -74,7 +76,7 @@ export default function Header() {
               onClose={handleClose}
             >
               <MenuItem onClick={() => navigate('/user-profile')}>My profile</MenuItem>
-              <MenuItem onClick={() => navigate('/favourites')}>My favourites</MenuItem>
+              <MenuItem onClick={() => navigate('/favourates')}>My favourites</MenuItem>
               <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
             </Menu>
