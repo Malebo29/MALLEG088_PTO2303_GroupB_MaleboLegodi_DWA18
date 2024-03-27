@@ -25,6 +25,7 @@ export type FavoriteProps = {
     lastUpdatedShowDate: string
     favoredDate: string
 }
+
 export type Show ={
     id:          string;
     title:       string;
