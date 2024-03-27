@@ -14,6 +14,9 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
     const [sort, setSort] = useState('');
     const [search, setSearch] = useState('');
 
+    const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
+    const [sortOption, setSortOption] = useState('');
+
     useEffect(() => {
       const fetchFavourites = async()=>{
         const userId = await(await supabase.auth.getUser()).data.user?.id
@@ -34,8 +37,11 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
     
    
    return (
-    <ShowsContext.Provider value={{ shows, setShows, mobileMenuOpen, setMobileMenuOpen, token, setToken, sort, setSort, search, setSearch, selectedSeason, setSelectedSeason, 
-        favourites, setFavourites }}>
+    <ShowsContext.Provider 
+        value={{ shows, setShows, mobileMenuOpen, setMobileMenuOpen,
+              token, setToken, sort, setSort, search, setSearch,
+              selectedSeason, setSelectedSeason, favourites, setFavourites,
+              selectedGenre, setSelectedGenre, sortOption, setSortOption }}>
         { children }
     </ShowsContext.Provider>
    )
