@@ -1,3 +1,5 @@
+import React from "react";
+
 export type ShowsContextType = {    
     favourites: FavoriteProps[] | null
     setFavourites: React.Dispatch<React.SetStateAction<FavoriteProps[] | null>>;
@@ -11,8 +13,20 @@ export type ShowsContextType = {
     selectedSeason: number;
     setSelectedSeason: React.Dispatch<React.SetStateAction<number>>;
 
+    sort: string;
+    setSort: React.Dispatch<React.SetStateAction<string>>;
+
+    search: string;
+    setSearch: React.Dispatch<React.SetStateAction<string>>;
+
     token: string;
     setToken: React.Dispatch<React.SetStateAction<string>>;
+
+    selectedGenre: number | null;
+    setSelectedGenre: React.Dispatch<React.SetStateAction<number | null>>;
+
+    sortOption: string;
+    setSortOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export type FavoriteProps = {
