@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Show } from '../../utils/type'
-import { Card, CardMedia, CardContent, Typography, Stack, Chip } from '@mui/material'
+import { Card, CardMedia, CardContent, Typography, Stack, Chip, CardActionArea } from '@mui/material'
+import { useShowsContext } from '../../context/ShowsContext'
 
 const genreMap = {
     "1":	"Personal Growth",
@@ -15,6 +16,7 @@ const genreMap = {
 }
 
 const ShowPreview = (show: Show) => {
+    const { setSelectedGenre } = useShowsContext();
     return (
         <Link to={`/show/${show.id}`}>
             <Card sx={{ maxWidth: 345,
@@ -22,44 +24,48 @@ const ShowPreview = (show: Show) => {
                     border: '1px solid #E7F1F9', 
                     borderRadius: '10px',
                     backgroundColor: '#E7F1F9' }}>
-        
-                <CardMedia
-                    component="img"
-                    sx={{ height: 140, objectFit: 'contain' }}
-                    image={show.image}
-                    title={show.title}
-                />
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography sx={{ fontSize: 15, color: '#050A35' }} gutterBottom variant="h5" component="div">
-                        {show.title}
-                    </Typography>
-        
-                    <Stack sx={{ mb: 1 }} direction="row" spacing={1}>
-                        <Chip color="primary" label={`Seasons: ${show.seasons}`} size="small" sx={{backgroundColor: '#2DD699', color: '#040736'}}/>
+                <CardActionArea>
+                        <CardMedia
+                            component="img"
+                            sx={{ height: 140, objectFit: 'contain' }}
+                            image={show.image}
+                            title={show.title}
+                        />
+
+                        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                            <Typography sx={{ fontSize: 15, color: '#050A35' }} gutterBottom variant="h5" component="div">
+                                {show.title}
+                            </Typography>
+                
+                            <Stack sx={{ mb: 1 }} direction="row" spacing={1}>
+                                <Chip color="primary" label={`Seasons: ${show.seasons}`} size="small" sx={{backgroundColor: '#2DD699', color: '#040736'}}/>
+                            </Stack>
+                
+                            <Typography
+                                sx={{ fontSize: 12, color: '#050A35' }} 
+                                variant="body2"
+                                color="text.secondary"                
+                                >
+                                {show.description.slice(0, 85)+"..."}
+                            </Typography>
+
+                            <Typography sx={{ mt: 1, fontSize: 12, color: '#050A35' }}>
+                            Updated:&nbsp;{new Date(show.updated).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            </Typography>
+                        </CardContent>
+                </CardActionArea>
+
+                <fieldset style={{ width: "80%", display: 'flex', color: '#040736', border: '2px solid #040736' }}>
+                    <legend><b>Genres&nbsp;</b></legend>
+                    <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
+                        {show.genres.map((genre: number)=> <Chip label={Object.values(genreMap)[genre-1]}
+                         size="small" sx={{ fontSize: 10, backgroundColor: '#A1CBFF56', color: '#040736' }}
+                         onClick={() => setSelectedGenre(genre)}
+                        />)}
                     </Stack>
-        
-                    <Typography
-                        sx={{ fontSize: 12, color: '#050A35' }} 
-                        variant="body2"
-                        color="text.secondary"                
-                        >
-                        {show.description.slice(0, 85)+"..."}
-                    </Typography>
-        
-                    <fieldset style={{ width: "80%", display: 'flex', color: '#040736', border: '2px solid #040736' }}>
-                        <legend><b>Genres&nbsp;</b></legend>
-                        <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap' }}>
-                            {show.genres.map((genre: number)=> <Chip label={Object.values(genreMap)[genre-1]} size="small" sx={{ fontSize: 10, backgroundColor: '#A1CBFF56', color: '#040736' }} />)}
-                        </Stack>
-                    </fieldset>
-        
-                    <Typography sx={{ mt: 1, fontSize: 12, color: '#050A35' }}>
-                    Updated:&nbsp;{new Date(show.updated).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </Typography>
-                </CardContent>
+                </fieldset>        
             </Card>
-        </Link>
-      )
-}
+    </Link>
+)}
 
 export default ShowPreview
