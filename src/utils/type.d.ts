@@ -1,4 +1,7 @@
-export type ShowsContextType = {
+export type ShowsContextType = {    
+    favourites: FavoriteProps[] | null
+    setFavourites: React.Dispatch<React.SetStateAction<FavoriteProps[] | null>>;
+
     shows: Show[];
     setShows: React.Dispatch<React.SetStateAction<Show[]>>;
 
@@ -12,6 +15,16 @@ export type ShowsContextType = {
     setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
+export type FavoriteProps = {
+    episodeId: number
+    episodeTitle: string
+    episodeDescription: string
+    seasonId: number
+    seasonImage: string;
+    showTitle: string   
+    lastUpdatedShowDate: string
+    favoredDate: string
+}
 export type Show ={
     id:          string;
     title:       string;
