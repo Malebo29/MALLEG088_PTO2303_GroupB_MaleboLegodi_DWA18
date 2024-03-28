@@ -1,32 +1,36 @@
 import { Show } from '../../utils/type'
-import { Card, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Stack, Typography } from '@mui/material'
 
 export const CarouselPreview = (show: Show) => {
     const title = show.title.length > 15 ? show.title.substring(0, 15) + '...' : show.title
 
   return (
-    <Card sx={{ maxWidth: 200,
+    <Card sx={{ maxWidth: 345,
                 border: "1px solid #E7F1F9",
                 borderRadius: "10px",
                 backgroundColor: "#E7F1F9"
             }}>
-                
-        <CardMedia
+       <CardActionArea sx={{maxidth: 200}}>
+       <CardMedia
                 component="img"
-                sx={{ height: 140, objectFit: 'contain' }}
+                sx={{ height: 140}}
                 image={show.image}
-                title={show.title}
+                // title={show.title}
         />
 
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography sx={{ fontSize: 15, color: '#050A35' }} gutterBottom variant="h5" component="div">
+                
+                <Typography gutterBottom variant="body2" sx={{ fontSize: 12, textAlign: 'center', color: '#050A35' }} component="div">
                     {show.title.slice(0, 15)+"..."}
                 </Typography>
     
-                <Stack sx={{ mb: 1 }} direction="row" spacing={1}>
+                <Stack sx={{ mt: 1 }} direction="row" spacing={1}>
                     <Chip color="primary" label={`Seasons: ${show.seasons}`} size="small" sx={{backgroundColor: '#2DD699', color: '#040736'}}/>
                 </Stack>
-        </CardContent>        
+        </CardContent>
+       </CardActionArea>
+                
+                
     </Card>
   )
 }

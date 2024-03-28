@@ -37,7 +37,7 @@ const Carousel = () => {
 
   return (
     <Container 
-        sx={{mt: 20,
+        sx={{mt: 10,
         display:'flex', 
         justifyContent:'center', 
         boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', 
@@ -54,7 +54,7 @@ const Carousel = () => {
       </IconButton>
       <Box sx={{ width: `${carouselContainerWidth}px`, height:"8%", margin:"auto", mb: 1 }}>
         <Typography variant="h4" component="div" sx={{ mb: 1, mt: 1, fontSize: 15, textAlign: 'center', fontStyle: 'italic', color: '#FFFFFF' }}>
-          This week’s trending shows
+          You may be interested in...
         </Typography>
         { shows.map((_, index) => (
           <Box key={`card-${index}`}
