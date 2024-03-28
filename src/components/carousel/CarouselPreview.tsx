@@ -10,7 +10,7 @@ export const CarouselPreview = (show: Show) => {
                 borderRadius: "10px",
                 backgroundColor: "#E7F1F9"
             }}>
-       <CardActionArea sx={{maxidth: 200}}>
+       <CardActionArea>
        <CardMedia
                 component="img"
                 sx={{ height: 140}}
