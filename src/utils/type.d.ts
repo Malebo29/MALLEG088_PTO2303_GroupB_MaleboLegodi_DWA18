@@ -1,4 +1,5 @@
 import React from "react";
+import { Session } from "@supabase/supabase-js";
 
 export type ShowsContextType = {    
     favourites: FavoriteProps[] | null
@@ -6,9 +7,6 @@ export type ShowsContextType = {
 
     shows: Show[];
     setShows: React.Dispatch<React.SetStateAction<Show[]>>;
-
-    mobileMenuOpen: boolean;
-    setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 
     selectedSeason: number;
     setSelectedSeason: React.Dispatch<React.SetStateAction<number>>;
@@ -19,8 +17,8 @@ export type ShowsContextType = {
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
 
-    token: string;
-    setToken: React.Dispatch<React.SetStateAction<string>>;
+    token: Session | null;
+    setToken: React.Dispatch<React.SetStateAction<Session | null>>;
 
     selectedGenre: number | null;
     setSelectedGenre: React.Dispatch<React.SetStateAction<number | null>>;

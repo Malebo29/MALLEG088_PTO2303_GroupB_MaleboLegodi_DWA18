@@ -33,7 +33,7 @@ const SigninForm = () => {
         setError } = useForm();
     
     const navigate = useNavigate()
-    const { token, setToken } = useShowsContext()
+    const { setToken } = useShowsContext()
 
     const onSubmit: SubmitHandler<FormFields> = async(formData)=>{
         try {

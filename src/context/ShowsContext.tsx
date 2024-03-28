@@ -1,13 +1,14 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { FavoriteProps, Show, ShowsContextType } from "../utils/type";
 import { supabase } from "../auth/supabase.service";
+import { Session } from "@supabase/supabase-js";
+
 
 const ShowsContext = createContext<ShowsContextType | null>(null)
 
 export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowList: Show[]}> = ({ children, initialShowList })=>{
     const [shows, setShows] = useState(initialShowList)
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [token, setToken] = useState<string>('')
+    const [token, setToken] = useState<Session | null>(null)
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [favourites, setFavourites] = useState<FavoriteProps[] | null>(null);
 
@@ -38,8 +39,7 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
    
    return (
     <ShowsContext.Provider 
-        value={{ shows, setShows, mobileMenuOpen, setMobileMenuOpen,
-              token, setToken, sort, setSort, search, setSearch,
+        value={{ shows, setShows, token, setToken, sort, setSort, search, setSearch,
               selectedSeason, setSelectedSeason, favourites, setFavourites,
               selectedGenre, setSelectedGenre, sortOption, setSortOption }}>
         { children }

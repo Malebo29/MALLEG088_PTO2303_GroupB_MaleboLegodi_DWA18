@@ -33,15 +33,6 @@ export default function Header() {
     return null;
   }
 
-  // const userName = supabase.auth.user();
-  // if (user) {
-  //   console.log(user.user.metadata.full_name);
-  // } else {
-  //   console.log('no user is currently logged in');
-  // }
-
-  // const userInitial = userName ? userName[0].toUpperCase() : '';
-
   return (
     <AppBar position="fixed" 
       sx={{
