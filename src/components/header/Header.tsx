@@ -1,181 +1,105 @@
-import { Box, Typography, Button, CssBaseline, AppBar, Toolbar, IconButton, Drawer, Divider, Stack, Container } from "@mui/material";
-import { useShowsContext } from "../../context/ShowsContext";
-import Logo from "../../assets/android-chrome-192x192.png";
-// import Logo from "../../assets/android-chrome-192x192.png";
-import HeaderMenuIcon from "./HeaderMenuIcon";
-import { useLocation, useNavigate } from "react-router-dom";
+import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Box, Button } from '@mui/material';
+import Logo from '../../assets/android-chrome-144x144.png';
 import { supabase } from "../../auth/supabase.service";
- 
-const drawerWidth = 240;
-type Props = {
-    window?: ()=>Window;
-}
- 
-export const Header = (props: Props) =>{
-    const { pathname } = useLocation()
-    const { mobileMenuOpen, setMobileMenuOpen } = useShowsContext()
-    const { window } = props
-    const handleDrawerToggle = ()=>{
-        setMobileMenuOpen(!mobileMenuOpen)
-    };
-    
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 
-    const container = window !== undefined ? ()=> window().document.body: undefined;
-    if( pathname == '/signin' || pathname == '/register' || pathname === '/forgot-password' || pathname === '/user-profile'  || pathname === '/settings'){
-        return null
-    }
+export default function Header() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-    const drawer = (
-        <Container
-            onClick={handleDrawerToggle}
-            sx={{
-                textAlign: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                backgroundColor: "#E7F1F9"
-                }}>
-                <Box
-                        sx={{
-                            display: {xs: 'flex',},
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems:"center",
-                            paddingY: 5,
-                            backgroundColor: '#040736'
-                            }}>
-                        <img
-                            src={Logo}
-                            width={64}
-                            alt="Podcast"
-                            loading="lazy"
-                            />
-                    <Typography
-                      variant="h6"
-                      component="div"
-                      sx={{color: "#ffffff"}}
-                      >
-                        Streamer Podcast
-                      </Typography>
-                </Box>
-                <Box
-                sx={{
-                    display:"flex",
-                    flexDirection:"column",
-                    justifyContent:"space-around",
-                    height:"390px",
-                    alignItems:"flex-start",
-                    paddingLeft: 2,
-                    
-                }}
-                >
-                    <Stack
-                        sx={{alignItems: "flex-start", gap:"2px"}}
-                    >
+  const navigate = useNavigate();
+  
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-                        {sessionStorage.getItem('token') != null ?
-                            <a href="/profile">My Profile</a> :
-                            <a href="/signin">Sign In</a>
-                        }
-                        <Divider sx={{width:"100%"}}/>
-                        <a href="#">Manage Fovourites</a>
-                       
-                        <Divider sx={{width:"100%"}}/>
-                        <a href="#">Preferences</a>
-                    </Stack>
-                </Box>
-                <Box
-                    sx={{
-                        display: 'block',
-                        justifyItems:'flex-end'
-                    }}
-                    >
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-                </Box>
-        </Container>
-    )
-    
-    const navigate = useNavigate()
-    return (
-        <Box sx={{display: "flex"}}>
-            <CssBaseline />
-            <AppBar sx={{backgroundColor: "#E7F1F9",}} component="nav">
-                <Toolbar>
-                    <Box sx={{
-                        paddingTop: "1rem",
-                        width: "100%",
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        color:"#040736"
-                    }}>
-                        <img
-                        src={Logo}
-                        width={80}
-                        alt="Podcast"
-                        loading="lazy"
-                        />
-                      <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{display: {sm: 'none'}}}
-                        >
-                        <HeaderMenuIcon setMobileMenuOpen={setMobileMenuOpen} />
-                      </IconButton>
-                    </Box>
-                    <Box
-                    sx={{
-                        display: 'block',
-                        justifyItems:'flex-end'
-                    }}
-                >
-                    { sessionStorage.getItem('token') != null ? <Button
-                        variant="text"
-                        sx={{display: {xs:"none", sm:"block"}, backgroundColor: "#A1CBFF", margin: 1, width: "100%", color: "#040736"}}
-                        onClick={()=>{
-                            supabase.auth.signOut()
-                            sessionStorage.removeItem('token')
-                        
-                        }}
-                        >
-                            <span>
-                              Signout
-                            </span>
-                    </Button>:
-                    <Button
-                    variant="text"
-                    onClick={()=> navigate('/signin')}
-                    sx={{display: {xs:"none", sm:"block"}, backgroundColor: "#A1CBFF", margin: 1, width: "100%", color: "#040736"}}
-                    >
-                        <span>
-                            SignIn 
-                        </span>
-                </Button>
-                    }
-                    
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    sessionStorage.removeItem('token');
+    navigate('/signin');
+  };
 
-                </Box>
-                </Toolbar>
-            </AppBar>
-            <nav>
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileMenuOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{keepMounted: true}}
-                    sx={{display: { xs: "block", sm:"none"},
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth}
-                }}
-                    >
-                    {drawer}
-                </Drawer>
-            </nav>
-        </Box>
-    )
- 
+  // checks if there is a session token in the session storage
+  const user = sessionStorage.getItem('token') ? true : false;
+
+  const location = useLocation();
+  const hideOnSignInPages = ['/signin', '/signup', '/forgot-password'];
+  if (hideOnSignInPages.includes(location.pathname)) {
+    return null;
+  }
+
+  // const userName = supabase.auth.user();
+  // if (user) {
+  //   console.log(user.user.metadata.full_name);
+  // } else {
+  //   console.log('no user is currently logged in');
+  // }
+
+  // const userInitial = userName ? userName[0].toUpperCase() : '';
+
+  return (
+    <AppBar position="fixed" 
+      sx={{
+        backgroundColor: '#040736',
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: 'o 1rem',
+       ' @media (max-width:600px)': {
+          Padding: '0 0.5rem',
+        }
+    }}>
+      <Toolbar>
+        <Box sx={{ flexGrow: 1 }}>
+          <Link to={'/'}>
+              <img
+              src={Logo}
+              width={80}
+              alt="Podcast"
+              loading="lazy"
+              />
+          </Link>
+          </Box>
+        {user ? (
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <Avatar sx={{ bgcolor: '#E7F1F9', width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 } }} src='/2.jpg' alt='Malebo'/>
+            </IconButton>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={() => navigate('/user-profile')}>My profile</MenuItem>
+              <MenuItem onClick={() => navigate('/favourates')}>My favourites</MenuItem>
+              <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+            </Menu>
+          </div>
+        ) : null }
+      </Toolbar>
+    </AppBar>
+  );
 }
