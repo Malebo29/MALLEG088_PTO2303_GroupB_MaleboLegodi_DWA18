@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Episode, FavoriteEpisodes, FavoriteProps, ShowDetail } from '../utils/type';
+import { Episode, FavoriteEpisodes, ShowDetail } from '../utils/type';
 import { useShowsContext } from '../context/ShowsContext';
 import { Button, Select, MenuItem, FormControl, InputLabel, Container, Box, CardMedia, Typography, AppBar, Toolbar, Tooltip, styled } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ const ShowDetails = () => {
   const [playStatus, setPlayStatus] = useState(false);
   const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
 
-
+  console.log(episodes)
   const handleAddToFavourates = async (
     episodeId: number,
     episodeTitle: string,
@@ -48,9 +48,6 @@ const ShowDetails = () => {
     showTitle: string,
     lastUpdatedShowDate: string,
   ) => {
-    // console.log(JSON.stringify(newFavorites))
-    // console.log(JSON.stringify({episodeId:1,seasonId: 1,showTitle:"What if you left Wall Street to find true purpose?"}))
-    // console.log(JSON.stringify(newFavorites).includes(JSON.stringify({episodeId:1,seasonId: 1,showTitle:"What if you left Wall Street to find true purpose?"})))
 
     let newFavorites = [...favouriteEpisodes];
     if (JSON.stringify(newFavorites).includes(JSON.stringify({ episodeId, seasonId, showTitle }))) {
@@ -208,13 +205,12 @@ const ShowDetails = () => {
     const fetchShow = async () => {
       setLoading(true);
       const showData = await getShow(showId!); // Fetch show data
-      console.log('showId:', showId)
-
       setShow(showData);
       if (showData && showData.episodes) {
         console.log('selectedSeason:', selectedSeason);
         const seasonEpisodes = showData.episodes.filter((episode: { season: number; }) => {
           console.log('episode.season:', episode.season);
+
           return episode.season === selectedSeason;
         });
         setEpisodes(seasonEpisodes);

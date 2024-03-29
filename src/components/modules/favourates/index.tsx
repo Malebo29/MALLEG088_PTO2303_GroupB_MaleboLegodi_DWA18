@@ -3,7 +3,6 @@ import { FavoriteProps } from '../../../utils/type'
 import { useState } from 'react'
 import { useShowsContext } from '../../../context/ShowsContext';
 import { supabase } from '../../../auth/supabase.service';
-import { useNavigate } from 'react-router-dom';
 
 const Favourate = (episode: FavoriteProps) =>{  
     const [readMore, setReadMore] = useState(false);
