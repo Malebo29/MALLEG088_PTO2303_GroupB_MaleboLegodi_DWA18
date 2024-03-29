@@ -1,5 +1,6 @@
 import React from "react";
 import { Session } from "@supabase/supabase-js";
+import { Favorite } from "@mui/icons-material";
 
 
 export type ShowsContextType = { 
@@ -8,8 +9,8 @@ export type ShowsContextType = {
     favourites: FavoriteProps[] | null
     setFavourites: React.Dispatch<React.SetStateAction<FavoriteProps[] | null>>;
 
-    favouriteEpisodes: number[];
-    setFavouriteEpisodes: React.Dispatch<React.SetStateAction<number[]>>;
+    favouriteEpisodes: FavoriteEpisodes[];
+    setFavouriteEpisodes: React.Dispatch<React.SetStateAction<FavoriteEpisodes[]>>;
 
     history: HistoryProps[] | null
     setHistory: React.Dispatch<React.SetStateAction<HistorProps[] | null>>;
@@ -34,6 +35,12 @@ export type ShowsContextType = {
 
     sortOption: string;
     setSortOption: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export type FavoriteEpisodes = {
+    episodeId: number,
+    seasonId: number,
+    showTitle: string
 }
 
 export type FavoriteProps = {

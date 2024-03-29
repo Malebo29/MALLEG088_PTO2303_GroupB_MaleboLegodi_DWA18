@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Avatar, Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, List, ListItem, ListItemText, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import { useShowsContext } from '../../../context/ShowsContext';
+import { KeyboardArrowRight } from '@mui/icons-material';
 
 const Settings = () => {
+  const navigate = useNavigate();
   const [autoPlay, setAutoPlay] = useState(false);
   const [notifications, setNotifications] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState('1.0');
-  const [autoDownload, setAutoDownload] = useState(false);
 
   const { playerRef }=  useShowsContext();
 
@@ -16,10 +17,6 @@ const Settings = () => {
   
   const handlePlaybackSpeedChange = (event) => {
     setPlaybackSpeed(event.target.value);
-  };
-
-  const handleAutoDownloadChange = (event) => {
-    setAutoDownload(event.target.checked);
   };
 
   const handleAutoPlayChange = (event) => {
@@ -31,18 +28,27 @@ const Settings = () => {
   };
 
   return (
-    <Box sx={{ mt: 4, mb: 4, width: '80%', margin: '0 auto' }}>
-      <Typography variant="h4" align="center">My Settings</Typography>
 
-      {/* Account */}
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="h6">Account:</Typography>
-        <Button variant="contained" component={Link} to="/history">View your Listening History</Button>
-        <Button variant="contained" color="secondary">Logout</Button>
+    <Box maxWidth="sm" sx={{ pt: '100px', display: 'flex', flexDirection: 'column' }}>
+
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Button variant='outlined' onClick={() => navigate(-1)}>Go Back</Button>
+        <Typography variant="h4" align="center" sx={{ mt: 2, mb: 2, fontWeight: 'bold' }}>My Settings</Typography>
       </Box>
 
-      {/* General */}
-      <Box sx={{ mt: 2 }}>
+      <Divider />  
+      <Box sx={{ m: 2 }}>
+      <Typography variant="h6">My profile:</Typography> 
+        <Box>
+          <Avatar>ML</Avatar>
+          <Typography variant="h4" sx={{ fontSize: '2rem' }}>Malebo Legodi</Typography>
+        </Box>
+        <Button variant="contained" color="secondary" component={Link} to="/">Logout</Button>
+      </Box>
+
+    <Box>
+    <Divider />  
+      <Box sx={{ m: 2 }}>
         <Typography variant="h6">General:</Typography>
         
         <FormControlLabel
@@ -58,63 +64,59 @@ const Settings = () => {
         <FormControlLabel
           control={
             <Switch
-              checked={autoDownload}
-              onChange={handleAutoDownloadChange}
-            />
-          }
-          label="Auto Download"
-        />
-
-        <FormControlLabel
-          control={
-            <Switch
               checked={notifications}
               onChange={handleNotificationsChange}
             />
           }
           label="Allow Notifications"
         />
-
-        <Typography variant="body2">Get updates on your favourite shows</Typography>
       </Box>
 
            {/* Playback speed box */}
-        <Box sx={{ mt: 2 }}>
-        
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Playback Speed</FormLabel>
-          <RadioGroup
-            aria-label="playback-speed"
-            value={playbackSpeed}
-            onChange={handlePlaybackSpeedChange}
-          >
-            <FormControlLabel value="0.5" control={<Radio />} label="0.5x" />
-            <FormControlLabel value="1.0" control={<Radio />} label="1.0x" />
-            <FormControlLabel value="1.5" control={<Radio />} label="1.5x" />
-            <FormControlLabel value="2.0" control={<Radio />} label="2.0x" />
-          </RadioGroup>
-        </FormControl>
+      <Divider />  
+      <Box sx={{ m: 2 }}>   
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Playback Speed</FormLabel>
+            <RadioGroup
+              aria-label="playback-speed"
+              value={playbackSpeed}
+              onChange={handlePlaybackSpeedChange}
+            >
+              <FormControlLabel value="0.5" control={<Radio />} label="0.5x" />
+              <FormControlLabel value="1.0" control={<Radio />} label="1.0x" />
+              <FormControlLabel value="1.5" control={<Radio />} label="1.5x" />
+              <FormControlLabel value="2.0" control={<Radio />} label="2.0x" />
+            </RadioGroup>
+          </FormControl>
       </Box>
-
-      <Box sx={{ mt: 2 }}>
-        <Tooltip title="Reset your progress which will remove all your listening history">
-            <Button variant="contained">Reset</Button>
+       
+      <Divider />  
+      <Box sx={{ m: 2 }}>
+        <Box>
+        <Tooltip title="View your listening history." variant="plain">
+        <Button variant="plain" component={Link} to="/history">My Listening History<KeyboardArrowRight /></Button>
         </Tooltip>
-      </Box>
+        </Box>
 
-
-      {/* My Favourites */}
-      <Box sx={{ mt: 2 }}>
-        <Button variant="contained" component={Link} to="/favourites">Manage My Favourites</Button>
+        <Box sx={{ mt: 2, mb: 2 }}>
+        <Tooltip title="Your tailored experience: Manage your favorites shows for personalised recommendations." variant="plain">
+          <Button variant="plain" component={Link} to="/favourites">Favourates Management <KeyboardArrowRight /></Button>
+        </Tooltip>
+        </Box>
       </Box>
 
       {/* About */}
-      <Box sx={{ mt: 2 }}>
+      <Divider />  
+      <Box sx={{ m: 2 }}>
         <Typography variant="h6">About:</Typography>
         <Typography variant="body2">App Version: 1.0.0</Typography>
-        <Button variant="contained" component={Link} to="/terms">Terms and Conditions</Button>
+        <Typography variant="body2">
+          Need help? Visit our <Link to="https://www.codespace.co.za/programs/">help center</Link> via Codespace.
+        </Typography>
       </Box>
     </Box>
+  </Box>
+
   );
 };
 

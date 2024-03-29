@@ -63,15 +63,15 @@ const SigninForm = () => {
 
   return (
     <Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
-            <Link to={'/home'}>
+        <Box maxWidth="sm" sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
+            <Box>
                 <img
                 src={Logo}
                 width={100}
                 alt="Podcast"
                 loading="lazy"
                 />
-            </Link>
+            </Box>
             <Typography variant="h4" align="center">Welcome to Streamer Podcast</Typography>
         </Box>
 

@@ -66,7 +66,7 @@ const SignUpForm = () => {
     }
   }
   return (
-    <StyledContainer maxWidth="xs">
+    <StyledContainer maxWidth="sm" sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
       <Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
           <img
@@ -163,7 +163,8 @@ const SignUpForm = () => {
         </Box>
 
         <Box sx={{ mt: 2, color: '#040736', textAlign: 'center' }}>
-          <p>Need help? Visit our <Link to="https://www.codespace.co.za/programs/">help center</Link> via Codespace.</p>
+        <Typography variant="body2" align="center" sx={{ m: 2, fontSize: '0.8rem' }}>
+          Already a member? <Link to="/">Click here to Sign In</Link></Typography>
         </Box>
       </Box>
     </StyledContainer>

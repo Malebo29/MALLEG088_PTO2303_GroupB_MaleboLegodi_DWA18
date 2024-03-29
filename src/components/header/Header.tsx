@@ -24,12 +24,12 @@ export default function Header() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     sessionStorage.removeItem('token');
-    navigate('/signin');
+    navigate('/');
   };
 
 
   const location = useLocation();
-  const hideOnSignInPages = ['/', '/signup', '/forgot-password'];
+  const hideOnSignInPages = ['/', '/register', '/forgot-password'];
   if (hideOnSignInPages.includes(location.pathname)) {
     return null;
   }
@@ -84,7 +84,7 @@ export default function Header() {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => navigate('/user-profile')}>My profile</MenuItem>
+              <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
               <MenuItem onClick={() => navigate('/favourates')}>My favourites</MenuItem>
               <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
               <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>

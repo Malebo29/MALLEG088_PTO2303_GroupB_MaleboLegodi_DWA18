@@ -1,9 +1,11 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Button, Container, Typography } from '@mui/material'
 import Favourate from '../components/modules/favourates'
 import { useShowsContext } from '../context/ShowsContext'
 import { FavoriteProps } from '../utils/type'
+import { useNavigate } from 'react-router-dom'
 
 const FavouratesPage = () => {
+  const navigate = useNavigate();
   const { favourites, sortOption } = useShowsContext()
 
   const sortedFavourates = [...(favourites || [])].sort((a, b) => {
@@ -27,12 +29,16 @@ const FavouratesPage = () => {
   }, {} as Record<string, FavoriteProps[]>);
  
   return (
-    <Container>
+    <Container maxWidth="sm" sx={{ pt: '100px', display: 'flex', flexDirection: 'column' }}>
+       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Button variant='outlined' onClick={() => navigate(-1)}>Go Back</Button>
+        <Typography variant="h4" align="center" sx={{ fontSize: "2rem", mt: 2, mb: 2, fontWeight: 'bold' }}>My Fourourate Shows</Typography>
+      </Box>
       {groupedFavourates && Object.entries(groupedFavourates).map(([showTitle, favs]) => (
         <Box key={showTitle}>
           <Typography variant='h4'>{showTitle}</Typography>
           
-          {favs.map((fav) => <Favourate key={fav.episodeId} {...fav}/>)}
+          {favs.map((fav, index) => <Favourate key={index} {...fav}/>)}
         </Box>
       )
       

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState, useRef } from "react";
-import { FavoriteProps, HistoryProps, Show, ShowsContextType } from "../utils/type";
+import { FavoriteEpisodes, FavoriteProps, HistoryProps, Show, ShowsContextType } from "../utils/type";
 import { supabase } from "../auth/supabase.service";
 import { Session } from "@supabase/supabase-js";
 
@@ -10,7 +10,7 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
     const [token, setToken] = useState<Session | null>(null)
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [favourites, setFavourites] = useState<FavoriteProps[] | null>(null);
-    const [favouriteEpisodes, setFavouriteEpisodes] = useState<number[]>([]);
+    const [favouriteEpisodes, setFavouriteEpisodes] = useState<FavoriteEpisodes[]>([]);
     const [history, setHistory]= useState<HistoryProps[] | null>(null);
 
     const playerRef = useRef<HTMLAudioElement>(null)
