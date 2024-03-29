@@ -93,14 +93,14 @@ const Settings = () => {
       <Divider />  
       <Box sx={{ m: 2 }}>
         <Box>
-        <Tooltip title="View your listening history." variant="plain">
-        <Button variant="plain" component={Link} to="/history">My Listening History<KeyboardArrowRight /></Button>
+        <Tooltip title="View your listening history." >
+        <Button variant="contained" component={Link} to="/history">My Listening History<KeyboardArrowRight /></Button>
         </Tooltip>
         </Box>
 
         <Box sx={{ mt: 2, mb: 2 }}>
-        <Tooltip title="Your tailored experience: Manage your favorites shows for personalised recommendations." variant="plain">
-          <Button variant="plain" component={Link} to="/favourites">Favourates Management <KeyboardArrowRight /></Button>
+        <Tooltip title="Your tailored experience: Manage your favorites shows for personalised recommendations.">
+          <Button variant="contained" component={Link} to="/favourites">Favourates Management <KeyboardArrowRight /></Button>
         </Tooltip>
         </Box>
       </Box>
