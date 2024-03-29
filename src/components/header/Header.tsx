@@ -3,10 +3,13 @@ import Logo from '../../assets/android-chrome-144x144.png';
 import { supabase } from "../../auth/supabase.service";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
+import { useShowsContext } from '../../context/ShowsContext';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const { token } = useShowsContext()
 
   const navigate = useNavigate();
   
@@ -24,11 +27,9 @@ export default function Header() {
     navigate('/signin');
   };
 
-  // checks if there is a session token in the session storage
-  const user = sessionStorage.getItem('token') ? true : false;
 
   const location = useLocation();
-  const hideOnSignInPages = ['/signin', '/signup', '/forgot-password'];
+  const hideOnSignInPages = ['/', '/signup', '/forgot-password'];
   if (hideOnSignInPages.includes(location.pathname)) {
     return null;
   }
@@ -55,7 +56,7 @@ export default function Header() {
               />
           </Link>
           </Box>
-        {user ? (
+        {token?.user ? (
           <div>
             <IconButton
               size="large"

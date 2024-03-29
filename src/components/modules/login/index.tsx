@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
 import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled, Card } from '@mui/material'
@@ -33,6 +33,7 @@ const SigninForm = () => {
         setError } = useForm();
     
     const navigate = useNavigate()
+    const location = useLocation()
     const { setToken } = useShowsContext()
 
     const onSubmit: SubmitHandler<FormFields> = async(formData)=>{
@@ -45,11 +46,10 @@ const SigninForm = () => {
             if( error ){
                 throw new AuthError(error.message, error.status)
             }
-            console.log(data.session)
-
             setToken(data.session)
             
-            navigate("/")
+            navigate('/home', { replace: true,})
+            
         } catch (error) {
             console.log(error)
             setError("root", {
@@ -64,7 +64,7 @@ const SigninForm = () => {
   return (
     <Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
-            <Link to={'/'}>
+            <Link to={'/home'}>
                 <img
                 src={Logo}
                 width={100}
@@ -77,8 +77,9 @@ const SigninForm = () => {
 
         <Box> 
             <Carousel />
-        </Box>  
-            <Typography variant="body2" align="center" sx={{ mt: 2, mb: 2 }}>Sign in to access your profile in favorite shows.</Typography>
+        </Box>
+          
+            <Typography variant="body2" align="center" sx={{ mt: 2, mb: 2 }}>Sign in to access your profile and favorite shows.</Typography>
             
         <StyledContainer maxWidth="xs" sx={{ mt: 2, mb: 2 }}>
             <Box component="form"
@@ -100,6 +101,7 @@ const SigninForm = () => {
             </FormControl>
 
             { errors.root && <Typography>{errors.root.message}</Typography>}
+            
             <Stack direction="row" spacing={2} justifyContent="center">
                 <Button type='submit' disabled={isSubmitting}>{isSubmitting ? "Submitting...": "Sign In"}</Button>
                 <Button

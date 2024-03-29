@@ -11,11 +11,13 @@ export const CarouselPreview = (show: Show) => {
                 backgroundColor: "#E7F1F9"
             }}>
        <CardActionArea>
+
        <CardMedia
                 component="img"
-                sx={{ height: 140}}
+                sx={{ height: 140, objectPosition: "top"}}
                 image={show.image}
-                // title={show.title}
+                title={show.title}
+                loading='eager'
         />
 
         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -28,9 +30,7 @@ export const CarouselPreview = (show: Show) => {
                     <Chip color="primary" label={`Seasons: ${show.seasons}`} size="small" sx={{backgroundColor: '#2DD699', color: '#040736'}}/>
                 </Stack>
         </CardContent>
-       </CardActionArea>
-                
-                
+      </CardActionArea>        
     </Card>
   )
 }

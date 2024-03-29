@@ -51,6 +51,7 @@ const ShowPreview = (show: Show) => {
           sx={{ height: 250, objectPosition: "top" }}
           image={show.image}
           title={show.title}
+          loading='eager'
           alt="Show image"
         />
 

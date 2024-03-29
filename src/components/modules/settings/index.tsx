@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Box, Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { useShowsContext } from '../../../context/ShowsContext';
 
 const Settings = () => {
   const [autoPlay, setAutoPlay] = useState(false);
@@ -8,6 +9,11 @@ const Settings = () => {
   const [playbackSpeed, setPlaybackSpeed] = useState('1.0');
   const [autoDownload, setAutoDownload] = useState(false);
 
+  const { playerRef }=  useShowsContext();
+
+  playerRef.autoplay = autoPlay;
+  playerRef.playBackSpeed = playbackSpeed;
+  
   const handlePlaybackSpeedChange = (event) => {
     setPlaybackSpeed(event.target.value);
   };
@@ -31,7 +37,7 @@ const Settings = () => {
       {/* Account */}
       <Box sx={{ mt: 2 }}>
         <Typography variant="h6">Account:</Typography>
-        <Button variant="contained" component={Link} to="/manage-devices">Manage Devices</Button>
+        <Button variant="contained" component={Link} to="/history">View your Listening History</Button>
         <Button variant="contained" color="secondary">Logout</Button>
       </Box>
 
