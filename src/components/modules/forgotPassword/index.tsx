@@ -29,7 +29,7 @@ const ForgotPasswordForm = () => {
 
         } catch (error) {
             setError("root", {
-                message: error.message
+                message: 'Error occured'
             }, {
                 shouldFocus: true
             });
