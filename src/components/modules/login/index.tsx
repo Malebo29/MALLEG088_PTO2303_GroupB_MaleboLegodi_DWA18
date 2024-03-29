@@ -1,9 +1,9 @@
 import { z } from 'zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
-import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled, Card } from '@mui/material'
+import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled } from '@mui/material'
 import Carousel from '../../carousel/Carousel'
 import Logo from '../../../../public/android-chrome-192x192.png';
 import { useShowsContext } from '../../../context/ShowsContext'
@@ -30,10 +30,9 @@ const SigninForm = () => {
         register, 
         handleSubmit,
         formState: { errors, isSubmitting }, 
-        setError } = useForm();
+        setError } = useForm<FormFields>();
     
     const navigate = useNavigate()
-    const location = useLocation()
     const { setToken } = useShowsContext()
 
     const onSubmit: SubmitHandler<FormFields> = async(formData)=>{

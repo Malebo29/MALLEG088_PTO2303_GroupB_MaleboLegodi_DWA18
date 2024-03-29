@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
 import Logo from '../../../../public/android-chrome-192x192.png';
-import { FormControl, InputLabel, FilledInput, Typography, Button, Checkbox, Container, FormControlLabel, Grid, styled, Box } from '@mui/material'
+import { FormControl, InputLabel, FilledInput, Typography, Button, Container, Grid, styled, Box } from '@mui/material'
 
 const StyledContainer = styled(Container)({
   display: 'flex',
@@ -32,13 +32,13 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError } = useForm();
+    setError } = useForm<FormFields>();
 
   const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<FormFields> = async (formData) => {
+  const onSubmit: SubmitHandler<FormFields> = async (formData: FormFields) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -137,18 +137,6 @@ const SignUpForm = () => {
           </Box>
 
           {errors.root && <Typography>{errors.root.message}</Typography>}
-
-          <Box
-            sx={{ mt: 2 }}>
-            <FormControlLabel
-              control={<Checkbox {...register('updates')} />}
-              label={
-                <Typography variant='body2' sx={{ lineHeight: '1.3em', color: '#040736' }}>
-                  I want to receive new show updates, marketing promotions and trending shows via email.
-                </Typography>
-              }
-            />
-          </Box>
 
           <Box sx={{ mt: 2 }}>
             <Button variant="contained" type='submit' disabled={isSubmitting}>{isSubmitting ? "Submitting..." : "Create Account"}</Button>
