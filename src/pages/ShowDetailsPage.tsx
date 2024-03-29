@@ -31,10 +31,11 @@ const ShowDetails = () => {
   const { selectedSeason, setSelectedSeason } = useShowsContext();
   const [show, setShow] = useState<ShowDetail | null>(null);
   const [episodes, setEpisodes] = useState<Episode[]>([])
-  const [ currentFile, setCurrentFile ] = useState<Episode | null>(null)
-  const [playProgress, setPlayProgress] = useState<{[id: string]: number}>({})
+  const [currentFile, setCurrentFile] = useState<Episode | null>(null)
+  const [playProgress, setPlayProgress] = useState<{ [id: string]: number }>({})
   const [loading, setLoading] = useState(true);
   const [playStatus, setPlayStatus] = useState(false);
+  const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
 
 
   const handleAddToFavourates = async (
@@ -46,45 +47,54 @@ const ShowDetails = () => {
     showTitle: string,
     lastUpdatedShowDate: string,
   ) => {
-    const { error } = await supabase
-      .from('user_favourates')
-      .insert([{
-        episodeId: episodeId,
-        episodeTitle: episodeTitle,
-        episodeDescription: episodeDescription,
-        seasonId: seasonId,
-        seasonImage,
-        showTitle: showTitle,
-        lastUpdatedShowDate: lastUpdatedShowDate,
-        userId: (await supabase.auth.getUser()).data.user?.id
-      }])
+    let newFavorites = [...favouriteEpisodes];
+    if (newFavorites.includes(episodeId)) {
+      newFavorites = newFavorites.filter(id => id !== episodeId)
+    } else {
+      newFavorites.push(episodeId);
+    }
 
-    if (error) console.log(error.message)
+    setFavouriteEpisodes(newFavorites); {
+      const { error } = await supabase
+        .from('user_favourates')
+        .insert([{
+          episodeId: episodeId,
+          episodeTitle: episodeTitle,
+          episodeDescription: episodeDescription,
+          seasonId: seasonId,
+          seasonImage,
+          showTitle: showTitle,
+          lastUpdatedShowDate: lastUpdatedShowDate,
+          userId: (await supabase.auth.getUser()).data.user?.id
+        }])
 
-    Store.addNotification({
-      title: <Typography variant='h5'>Add to Favourates</Typography>,
-      type: 'success',
-      container: 'center',
-      message: 'Added successfully to favourates ',
-      animationIn: ['animated', 'fadeIn'],
-      animationOut: ['animated', 'fadeOut'],
-      dismiss: { duration: 4000, onScreen: true },
-    })
+      if (error) console.log(error.message)
+
+      Store.addNotification({
+        title: <Typography variant='h5'>Add to Favourates</Typography>,
+        type: 'success',
+        container: 'center',
+        message: 'Added successfully to favourates ',
+        animationIn: ['animated', 'fadeIn'],
+        animationOut: ['animated', 'fadeOut'],
+        dismiss: { duration: 4000, onScreen: true },
+      })
+    }
   }
 
-  
-  const handlePlayEpisode = async(file: Episode)=>{
-    const userId = await (await supabase.auth.getUser()).data.user?.id 
 
-    if(playerRef.current && currentFile){
-      setPlayProgress({
-        ...playProgress,
-        [currentFile.episode]: playerRef.current.currentTime
-      })
+    const handlePlayEpisode = async(file: Episode)=>{
+      const userId = await (await supabase.auth.getUser()).data.user?.id 
 
-      playerRef.current.pause();
-      playerRef.current.currentTime = 0; //rest playertime
-      playerRef.current.volume = 0.7;
+      if(playerRef.current && currentFile){
+        setPlayProgress({
+          ...playProgress,
+          [currentFile.episode]: playerRef.current.currentTime
+        })
+
+        playerRef.current.pause();
+        playerRef.current.currentTime = 0; //rest playertime
+        playerRef.current.volume = 0.7;
 
       console.log( playProgress )
       //Update user listening history
@@ -105,111 +115,146 @@ const ShowDetails = () => {
     playerRef.current?.play()
     playerRef.current.addEventListener('ended', ()=> setPlayStatus(true))
     playerRef.current.addEventListener('pause', ()=> setPlayStatus(false))
-   
+
   }
 
-  useEffect(() => {
-    const fetchShow = async () => {
-      setLoading(true);
-      const showData = await getShow(showId!); // Fetch show data
+//   const handlePlayEpisode = async (episodeId: number, playProgress: number) => {
+//     const userId = await (await supabase.auth.getUser()).data.user?.id
 
-      console.log('showId:', showId)
+//     if (playerRef.current) {
+//       playerRef.current.pause();
+//       playerRef.current.currentTime = playProgress; // set play time to the passed playProgress
+//       playerRef.current.volume = 0.7;
+//     }
 
-      setShow(showData);
-      if (showData && showData.episodes) {
+//     console.log(playProgress)
 
-        console.log('selectedSeason:', selectedSeason);
+//     //Select user listening history
+//     const { data: episodes, error } = await supabase
+//       .from('episodes')
+//       .select('title')
+//       .eq('id', episodeId)
 
-        const seasonEpisodes = showData.episodes.filter((episode: { season: number; }) => {
+//       if(error) console.log('Error fetching episode', error)
 
-          console.log('episode.season:', episode.season);
+//       const episodeTitle = episodes[0].title;
 
-          return episode.season === selectedSeason;
-        });
-        setEpisodes(seasonEpisodes);
-      }
-      setLoading(false);
-    };
+//     //Update user listening history
+//     const { error: updateError } = await supabase
+//       .from('user_history')
+//       .upsert({
+//         episodeId: episodeId,
+//         episodeTitle: episodeTitle,
+//         playProgress: playProgress,
+//         playStatus: playStatus ? "Finished" : "In Progress",
+//         userId
+//       })
 
-    fetchShow();
-  }, [showId, selectedSeason]);
+//     if (updateError) console.log("Error updating user listening history", updateError)
+//   }
 
-  if (loading || !show) {
-    return <div>Loading...</div>;
-  }
+//   playerRef.current?.play()
+//   playerRef.current.addEventListener('ended', () => setPlayStatus(true))
+//   playerRef.current.addEventListener('pause', () => setPlayStatus(false))
 
-  return (
-    <Container maxWidth="sm" sx={{ pt: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+// }
 
-      <Button variant='outlined' onClick={() => navigate(-1)}>Go Back</Button>
-      <Box sx={{ textAlign: 'center' }}>
-        <h1>{show.title}</h1>
-        <CardMedia
-          component="img"
-          image={show.image}
-          alt={show.title}
-          sx={{ width: '100%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)' }}
-        />
-        <p>{show.description}</p>
+useEffect(() => {
+  const fetchShow = async () => {
+    setLoading(true);
+    const showData = await getShow(showId!); // Fetch show data
+    console.log('showId:', showId)
 
-        <StyledFormControl variant="outlined">
-          <InputLabel id="season-select-label" shrink>Season:</InputLabel>
-          <Select
-            labelId="season-select-label"
-            id="season-select"
-            value={selectedSeason}
-            onChange={(event) => setSelectedSeason(Number(event.target.value))}
+    setShow(showData);
+    if (showData && showData.episodes) {
+      console.log('selectedSeason:', selectedSeason);
+      const seasonEpisodes = showData.episodes.filter((episode: { season: number; }) => {
+        console.log('episode.season:', episode.season);
+        return episode.season === selectedSeason;
+      });
+      setEpisodes(seasonEpisodes);
+    }
+    setLoading(false);
+  };
+  fetchShow();
+}, [showId, selectedSeason]);
+
+if (loading || !show) {
+  return <div>Loading...</div>;
+}
+
+return (
+  <Container maxWidth="sm" sx={{ pt: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
+    <Button variant='outlined' onClick={() => navigate(-1)}>Go Back</Button>
+    <Box sx={{ textAlign: 'center' }}>
+      <h1>{show.title}</h1>
+      <CardMedia
+        component="img"
+        image={show.image}
+        alt={show.title}
+        sx={{ width: '100%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)' }}
+      />
+      <p>{show.description}</p>
+
+      <StyledFormControl variant="outlined">
+        <InputLabel id="season-select-label" shrink>Season:</InputLabel>
+        <Select
+          labelId="season-select-label"
+          id="season-select"
+          value={selectedSeason}
+          onChange={(event) => setSelectedSeason(Number(event.target.value))}
+        >
+          {show.seasons.map((_season, index) => (
+            <MenuItem key={index} value={index + 1}>
+              Season {index + 1}
+            </MenuItem>
+          ))}
+        </Select>
+      </StyledFormControl>
+
+      <h2>Season {selectedSeason} ({show.seasons[selectedSeason].episodes.length} episodes)</h2>
+      {show.seasons[selectedSeason].episodes.map(episode => <div key={episode.episode}>
+        <h3>
+          Episode {episode.episode}: {episode.title}
+        </h3>
+        <p>{episode.description}</p>
+
+        <Button
+          startIcon={true ? <PlayArrow sx={{ color: "#2DD699" }} /> : <PauseCircle />}
+          onClick={() => handlePlayEpisode(episode)}
+        >
+          Listen
+        </Button>
+
+        <Tooltip title={favouriteEpisodes.includes(episode.episode) ? "Remove from your favourates" : "Add to your favourates"}>
+          <Button
+            startIcon={favouriteEpisodes.includes(episode.episode) ? <Favorite sx={{ color: "#2DD699" }} /> : <FavoriteBorder />}
+            onClick={() => handleAddToFavourates(episode.episode, episode.title,
+              episode.description, selectedSeason, show.seasons[selectedSeason].image,
+              show.title, show.updated.toString())}
           >
-            {show.seasons.map((_season, index) => (
-              <MenuItem key={index} value={index + 1}>
-                Season {index + 1}
-              </MenuItem>
-            ))}
-          </Select>
-        </StyledFormControl>
+          </Button>
+        </Tooltip>
+      </div>)}
 
-        <h2>Season {selectedSeason} ({show.seasons[selectedSeason].episodes.length} episodes)</h2>
-        {show.seasons[selectedSeason].episodes.map(episode => <div key={episode.episode}>
-          <h3>
-            Episode {episode.episode}: {episode.title}
-          </h3>
-          <p>{episode.description}</p>
+    </Box>
 
-            <Button
-              startIcon={true ? <PlayArrow sx={{ color: "#2DD699" }} /> : <PauseCircle />}
-              onClick={() => handlePlayEpisode(episode)}
-            >
-              Listen
-            </Button>
-
-          <Tooltip title={true ? "Remove from your favourates" : "Add to your favourates"}>
-            <Button
-              startIcon={true ? <Favorite sx={{ color: "#2DD699" }} /> : <FavoriteBorder />}
-              onClick={() => handleAddToFavourates(episode.episode, episode.title,
-                episode.description, selectedSeason, show.seasons[selectedSeason].image,
-                show.title, show.updated.toString())}
-            >
-            </Button>
-          </Tooltip>
-        </div>)}
-
-      </Box>
-      
-      <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
-        <Toolbar sx={{display: 'flex', flexDirection:'column', justifyContent:'space-between', alignItems:'center'}}>
-          <marquee>{currentFile?.title}</marquee>
-          <AudioPlayer audioRef={playerRef} audioFile={currentFile ? currentFile : {
-            title: '',
-            description: '',
-            episode: 0,
-            file: ''
-          }} />
-        </Toolbar>
-      </AppBar>
-    </Container>
+    <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+      <Toolbar sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+        <marquee>{currentFile?.title}</marquee>
+        <AudioPlayer audioRef={playerRef} audioFile={currentFile ? currentFile : {
+          title: '',
+          description: '',
+          episode: 0,
+          file: ''
+        }} />
+      </Toolbar>
+    </AppBar>
+  </Container>
 
 
-  );
-};
+);
+}
 
 export default ShowDetails;

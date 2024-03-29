@@ -3,7 +3,6 @@ import { FavoriteProps, HistoryProps, Show, ShowsContextType } from "../utils/ty
 import { supabase } from "../auth/supabase.service";
 import { Session } from "@supabase/supabase-js";
 
-
 const ShowsContext = createContext<ShowsContextType | null>(null)
 
 export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowList: Show[]}> = ({ children, initialShowList })=>{
@@ -11,6 +10,7 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
     const [token, setToken] = useState<Session | null>(null)
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [favourites, setFavourites] = useState<FavoriteProps[] | null>(null);
+    const [favouriteEpisodes, setFavouriteEpisodes] = useState<number[]>([]);
     const [history, setHistory]= useState<HistoryProps[] | null>(null);
 
     const playerRef = useRef<HTMLAudioElement>(null)
@@ -57,7 +57,7 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
    return (
     <ShowsContext.Provider 
         value={{ playerRef, shows, setShows, token, setToken, sort, setSort, search, setSearch,
-              selectedSeason, setSelectedSeason, favourites, setFavourites,
+              selectedSeason, setSelectedSeason, favourites, setFavourites, favouriteEpisodes, setFavouriteEpisodes,
               selectedGenre, setSelectedGenre, sortOption, setSortOption,history, setHistory }}>
         { children }
     </ShowsContext.Provider>

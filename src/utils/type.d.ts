@@ -3,9 +3,14 @@ import { Session } from "@supabase/supabase-js";
 
 
 export type ShowsContextType = { 
-    playerRef: RefObject<HTMLAudioElement>;   
+    playerRef: RefObject<HTMLAudioElement>; 
+
     favourites: FavoriteProps[] | null
     setFavourites: React.Dispatch<React.SetStateAction<FavoriteProps[] | null>>;
+
+    favouriteEpisodes: number[];
+    setFavouriteEpisodes: React.Dispatch<React.SetStateAction<number[]>>;
+
     history: HistoryProps[] | null
     setHistory: React.Dispatch<React.SetStateAction<HistorProps[] | null>>;
 
@@ -57,7 +62,8 @@ export type HistoryProps = {
 export type AudioPlayerProps ={
     audioFile: Episode,
     audioRef: React.LegacyRef<HTMLAudioElement> | undefined
-  }
+}
+
 export type Show ={
     id:          string;
     title:       string;

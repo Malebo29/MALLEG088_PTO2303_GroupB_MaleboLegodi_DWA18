@@ -12,7 +12,7 @@ const FavouratesPage = () => {
       case 'title-desc': return b.showTitle.localeCompare(a.showTitle);
 
       case 'date-asc': return new Date(a.lastUpdatedShowDate).getTime() - new Date(b.lastUpdatedShowDate).getTime();
-      case 'date-asc': return new Date(b.lastUpdatedShowDate).getTime() - new Date(a.lastUpdatedShowDate).getTime();
+      case 'date-desc': return new Date(b.lastUpdatedShowDate).getTime() - new Date(a.lastUpdatedShowDate).getTime();
 
       default:
         return 0;

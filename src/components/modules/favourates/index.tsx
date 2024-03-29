@@ -1,9 +1,26 @@
 import { Box, Button, CardMedia, Chip, Collapse, Typography } from '@mui/material'
 import { FavoriteProps } from '../../../utils/type'
 import { useState } from 'react'
+import { useShowsContext } from '../../../context/ShowsContext';
+import { supabase } from '../../../auth/supabase.service';
 
 const Favourate = (episode: FavoriteProps) =>{   
     const [readMore, setReadMore] = useState(false);
+    const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
+
+    const handleRemoveFromFavourates = async (episodeId: number) => {
+        
+        setFavouriteEpisodes(favouriteEpisodes.filter(id => id !== episodeId)); // remove from local storage
+
+        const userId = (await supabase.auth.getUser()).data.user?.id; // remove from database
+        const { error } = await supabase
+        .from('user_favourates')
+        .delete()
+        .eq('episodeId', episodeId)
+        .eq('userId', userId);
+
+        if (error) console.log(error.message);
+    }
 
     return (
         <Box sx={{display:'flex', flexDirection:'column', justifyContent:'center'}}>
@@ -37,7 +54,7 @@ const Favourate = (episode: FavoriteProps) =>{
             </Box>
 
             <Box sx={{display:'flex', justifyContent:'space-between', width: '100%'}}>
-                <Button>Remove</Button>
+                <Button onClick={() => handleRemoveFromFavourates(episode.episodeId)}>Remove</Button>
                 <Typography variant='body2'>Favoured Date: 
                     {new Date(episode.favoredDate).toLocaleDateString('en-GB',
                     { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
