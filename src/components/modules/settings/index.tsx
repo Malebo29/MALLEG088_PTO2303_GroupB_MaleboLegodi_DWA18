@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Avatar, Box, Button, Container, Divider, FormControl, FormControlLabel, FormLabel, List, ListItem, ListItemText, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
+import { SetStateAction, useState } from 'react';
+import { Avatar, Box, Button, Divider, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Switch, Tooltip, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShowsContext } from '../../../context/ShowsContext';
 import { KeyboardArrowRight } from '@mui/icons-material';
@@ -15,15 +15,15 @@ const Settings = () => {
   playerRef.autoplay = autoPlay;
   playerRef.playBackSpeed = playbackSpeed;
   
-  const handlePlaybackSpeedChange = (event) => {
+  const handlePlaybackSpeedChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setPlaybackSpeed(event.target.value);
   };
 
-  const handleAutoPlayChange = (event) => {
+  const handleAutoPlayChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setAutoPlay(event.target.checked);
   };
 
-  const handleNotificationsChange = (event) => {
+  const handleNotificationsChange = (event: { target: { checked: boolean | ((prevState: boolean) => boolean); }; }) => {
     setNotifications(event.target.checked);
   };
 
