@@ -16,7 +16,7 @@ export const CarouselPreview = (show: Show) => {
                 component="img"
                 sx={{ height: 140, objectPosition: "top"}}
                 image={show.image}
-                title={show.title}
+                title={title}
                 loading='eager'
         />
 

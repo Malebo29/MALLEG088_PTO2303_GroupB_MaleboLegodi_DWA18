@@ -1,11 +1,11 @@
 import { ChangeEvent } from 'react';
-import { Box, TextField, Typography, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Box, TextField, Typography, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import { useShowsContext } from '../../context/ShowsContext';
 
 const Filter = () => {
     const { setSort, setSearch } = useShowsContext();
 
-    const handleSortChange = (e: ChangeEvent<{ value: unknown }>) => {
+    const handleSortChange = (e: SelectChangeEvent<string>) => {
         setSort(e.target.value as string);
     };
 

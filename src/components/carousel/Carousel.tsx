@@ -1,16 +1,11 @@
 import {
   Box,
-  Container,
-  IconButton,
-  Slide,
-  Stack,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useShowsContext } from "../../context/ShowsContext";
-import { Show } from "../../utils/type";
 import { CarouselPreview } from "./CarouselPreview";
 
 const Carousel = () => {

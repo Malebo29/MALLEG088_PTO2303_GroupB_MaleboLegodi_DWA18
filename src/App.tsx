@@ -3,7 +3,6 @@ import ShowDetails from './pages/ShowDetailsPage';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
 import { ForgotPassword } from './pages/ForgotPassword';
-import { UserProfile } from './pages/UserProfile';
 import { SettingsPage } from './pages/SettingsPage';
 import Header from './components/header/Header';
 import HomePage from './pages/HomePage';
@@ -27,7 +26,6 @@ function App() {
           {/* Private routes */}
           <Route element={<RequireAuth />}>
             <Route path="/show/:showId" element={<ShowDetails />} />        
-            <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/favourates" element={<FavouratesPage />} />
             <Route path="/history" element={<ListeningHistoryPage />} />

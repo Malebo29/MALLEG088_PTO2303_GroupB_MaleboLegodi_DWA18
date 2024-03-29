@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Box, Button } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Box } from '@mui/material';
 import Logo from '../../assets/android-chrome-144x144.png';
 import { supabase } from "../../auth/supabase.service";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -6,14 +6,14 @@ import React from 'react';
 import { useShowsContext } from '../../context/ShowsContext';
 
 export default function Header() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
   const { token } = useShowsContext()
 
   const navigate = useNavigate();
   
-  const handleMenu = (event) => {
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
