@@ -1,9 +1,13 @@
 import React from "react";
 import { Session } from "@supabase/supabase-js";
 
-export type ShowsContextType = {    
+
+export type ShowsContextType = { 
+    playerRef: RefObject<HTMLAudioElement>;   
     favourites: FavoriteProps[] | null
     setFavourites: React.Dispatch<React.SetStateAction<FavoriteProps[] | null>>;
+    history: HistoryProps[] | null
+    setHistory: React.Dispatch<React.SetStateAction<HistorProps[] | null>>;
 
     shows: Show[];
     setShows: React.Dispatch<React.SetStateAction<Show[]>>;
@@ -38,6 +42,22 @@ export type FavoriteProps = {
     favoredDate: string
 }
 
+export type HistoryProps = {
+    created_at: string
+    episodeId: number | null
+    episodeTitle: string | null
+    id: number
+    playProgress: string | null
+    playStatus: string | null
+    seasonId: number | null
+    showId: number | null
+    userId: string | null
+}
+
+export type AudioPlayerProps ={
+    audioFile: Episode,
+    audioRef: React.LegacyRef<HTMLAudioElement> | undefined
+  }
 export type Show ={
     id:          string;
     title:       string;
