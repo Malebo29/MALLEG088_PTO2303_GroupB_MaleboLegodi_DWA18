@@ -13,7 +13,7 @@ export type ShowsContextType = {
     setFavouriteEpisodes: React.Dispatch<React.SetStateAction<FavoriteEpisodes[]>>;
 
     history: HistoryProps[] | null
-    setHistory: React.Dispatch<React.SetStateAction<HistorProps[] | null>>;
+    setHistory: React.Dispatch<React.SetStateAction<HistoryProps[] | null>>;
 
     shows: Show[];
     setShows: React.Dispatch<React.SetStateAction<Show[]>>;
@@ -35,6 +35,9 @@ export type ShowsContextType = {
 
     sortOption: string;
     setSortOption: React.Dispatch<React.SetStateAction<string>>;
+
+    loading: boolean;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export type FavoriteEpisodes = {

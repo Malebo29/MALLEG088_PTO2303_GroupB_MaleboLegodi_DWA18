@@ -6,15 +6,22 @@ import { useShowsContext } from '../../context/ShowsContext'
 import Grid from '@mui/material/Unstable_Grid2'
  
 const ShowList = () => {
-    const { shows , setShows, sort, search } = useShowsContext() // Retrieve sort and search from context
+    const { shows , setShows, sort, search, selectedGenre, loading, setLoading } = useShowsContext()
     
     useEffect(() => {
-        getShows('https://podcast-api.netlify.app/shows').then(data => {
-        setShows(data)
-        })
- 
-    // setTimeout(()=>console.log("fetching data..."), 5000)
-}, [])
+        const fetchShows = async () => {
+            setLoading(true);
+            const data = await getShows('https://podcast-api.netlify.app/shows');
+            if (selectedGenre) {
+                const filteredShows : Show[]= data.filter((show: { genres: number[] }) => show.genres.includes(selectedGenre));
+                setShows(filteredShows);
+            } else {
+                setShows(data);
+            }
+            setLoading(false);
+        };
+        fetchShows();
+    }, [selectedGenre]);
 
         const sortedAndFilteredShows = useMemo(() => {
         let result = [...shows];
@@ -42,6 +49,10 @@ const ShowList = () => {
 
         return result;
             }, [shows, sort, search]);
+
+        if (loading) {
+                return <div>Loading...</div>;
+        }
 
   return (
         <Grid container spacing={2} sx={{display: 'flex', justifyContent:'center'}}>

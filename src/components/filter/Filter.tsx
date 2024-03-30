@@ -1,16 +1,25 @@
 import { ChangeEvent } from 'react';
 import { Box, TextField, Typography, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent } from '@mui/material';
 import { useShowsContext } from '../../context/ShowsContext';
+import { genreMap } from '../show/ShowPreview';
 
 const Filter = () => {
-    const { setSort, setSearch } = useShowsContext();
+    const { sort, setSort, setSearch, selectedGenre, setSelectedGenre } = useShowsContext();
 
     const handleSortChange = (e: SelectChangeEvent<string>) => {
-        setSort(e.target.value as string);
+        if (e.target.value === "none") {
+            setSort("");
+        } else {
+            setSort(e.target.value as string);
+        }       
     };
 
     const handleSearchChange = (e: ChangeEvent<{ value: unknown }>) => {
         setSearch(e.target.value as string);
+    };
+
+    const handleGenreChange = (e: SelectChangeEvent<number | null>) => {
+        setSelectedGenre(e.target.value as number);
     };
 
     return (
@@ -23,7 +32,7 @@ const Filter = () => {
                     <InputLabel id="sort-label" sx={{color: '#000'}}>Sort By</InputLabel>
                     <Select
                         labelId="sort-label"
-                        value=""
+                        value={sort || ""}
                         onChange={handleSortChange}
                         label="Sort By"
                         sx={{color: '#000'}}
@@ -33,6 +42,22 @@ const Filter = () => {
                         <MenuItem value="titleZA">Title (Z-A)</MenuItem>
                         <MenuItem value="dateAsc">Date Updated (Ascending)</MenuItem>
                         <MenuItem value="dateDesc">Date Updated (Descending)</MenuItem>
+                    </Select>
+                </FormControl>
+
+                <FormControl variant="outlined" size="small" sx={{ minWidth: 200, width: { xs: '100%', sm: 'auto' }}}>
+                    <InputLabel id="genre-label" sx={{color: '#000'}}>Filter by Genre</InputLabel>
+                    <Select
+                        labelId="genre-label"
+                        value={selectedGenre}
+                        onChange={handleGenreChange}
+                        label="Filter by Genre"
+                        sx={{color: '#000'}}
+                    >
+                        <MenuItem value=""><em>None</em></MenuItem>
+                        {Object.entries(genreMap).map(([key, value]) => (
+                        <MenuItem value={Number(key)}>{value}</MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
                 <TextField

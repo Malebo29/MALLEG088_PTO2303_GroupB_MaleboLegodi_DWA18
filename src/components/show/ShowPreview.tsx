@@ -8,10 +8,9 @@ import {
   Chip,
   CardActionArea,
 } from "@mui/material";
-import { useShowsContext } from "../../context/ShowsContext";
 import { useNavigate } from "react-router-dom";
 
-const genreMap = {
+export const genreMap = {
   "1": "Personal Growth",
   "2": "True Crime and Investigative Journalism",
   "3": "History",
@@ -25,7 +24,6 @@ const genreMap = {
 
 const ShowPreview = (show: Show) => {
   const navigate = useNavigate();
-  const { setSelectedGenre } = useShowsContext();
 
   const handleClick = () => {
     navigate(`/show/${show.id}`);
@@ -115,6 +113,7 @@ const ShowPreview = (show: Show) => {
         <legend>
           <b>Genres&nbsp;</b>
         </legend>
+        
         <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
           {show.genres.map((genre: number) => (
             <Chip
@@ -125,7 +124,6 @@ const ShowPreview = (show: Show) => {
                 backgroundColor: "#A1CBFF56",
                 color: "#040736",
               }}
-              onClick={() => setSelectedGenre(genre)}
             />
           ))}
         </Stack>

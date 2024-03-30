@@ -61,8 +61,9 @@ const SigninForm = () => {
     }
 
   return (
-    <Box>
-        <Box maxWidth="sm" sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
+    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="center">
+        <Container maxWidth="sm"> 
+        <Box sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
             <Box>
                 <img
                 src={Logo}
@@ -110,6 +111,7 @@ const SigninForm = () => {
             <Typography variant="body2" align="center" sx={{ mt: 2, fontSize: '0.8rem' }}>Don’t have a profile? <Link to="/register">Sign up</Link></Typography>
             </Box>
         </StyledContainer>
+        </Container>
     </Box>
     
   )

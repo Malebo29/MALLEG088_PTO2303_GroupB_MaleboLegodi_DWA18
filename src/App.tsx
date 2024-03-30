@@ -23,6 +23,8 @@ function App() {
           <Route path="/register" element={<SignUp />} />
           <Route index path="/" element={<SignIn />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<SignIn />} />
+
           {/* Private routes */}
           <Route element={<RequireAuth />}>
             <Route path="/show/:showId" element={<ShowDetails />} />        

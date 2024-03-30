@@ -1,12 +1,12 @@
-import { ReactNode, createContext, useContext, useEffect, useState, useRef } from "react";
+import { ReactNode, createContext, useContext, useState, useRef } from "react";
 import { FavoriteEpisodes, FavoriteProps, HistoryProps, Show, ShowsContextType } from "../utils/type";
-import { supabase } from "../auth/supabase.service";
 import { Session } from "@supabase/supabase-js";
 
 const ShowsContext = createContext<ShowsContextType | null>(null)
 
 export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowList: Show[]}> = ({ children, initialShowList })=>{
     const [shows, setShows] = useState(initialShowList)
+    const [loading, setLoading] = useState(false);
     const [token, setToken] = useState<Session | null>(null)
     const [selectedSeason, setSelectedSeason] = useState(1);
     const [favourites, setFavourites] = useState<FavoriteProps[] | null>(null);
@@ -21,42 +21,9 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
     const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
     const [sortOption, setSortOption] = useState('');
 
-    useEffect(() => {
-      const fetchFavourites = async()=>{
-        const userId = await(await supabase.auth.getUser()).data.user?.id
-
-        const { data, error } = await supabase
-        .from('user_favourates')
-        .select("*")
-        .eq('userId', userId)
-
-        if(error) console.log(error.message)
-
-        setFavourites(data)
-      }
-
-      const fetchUserHistory = async()=>{
-        const userId = await(await supabase.auth.getUser()).data.user?.id
-
-        const { data, error } = await supabase
-        .from('user_history')
-        .select("*")
-        .eq('userId', userId)
-
-        if(error) console.log(error.message)
-
-        setHistory(data)
-      }
-
-
-      fetchUserHistory()
-      fetchFavourites()
-    }, [])
-    
-   
    return (
     <ShowsContext.Provider 
-        value={{ playerRef, shows, setShows, token, setToken, sort, setSort, search, setSearch,
+        value={{ playerRef, shows, setShows, loading, setLoading, token, setToken, sort, setSort, search, setSearch,
               selectedSeason, setSelectedSeason, favourites, setFavourites, favouriteEpisodes, setFavouriteEpisodes,
               selectedGenre, setSelectedGenre, sortOption, setSortOption,history, setHistory }}>
         { children }

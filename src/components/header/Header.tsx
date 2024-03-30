@@ -1,15 +1,15 @@
 import { AppBar, Toolbar, IconButton, Avatar, Menu, MenuItem, Box } from '@mui/material';
 import Logo from '../../assets/android-chrome-144x144.png';
 import { supabase } from "../../auth/supabase.service";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useShowsContext } from '../../context/ShowsContext';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
-
   const { token } = useShowsContext()
+  const fullName = token?.user.user_metadata.first_name + " " + token?.user.user_metadata.last_name;
 
   const navigate = useNavigate();
   
@@ -46,17 +46,14 @@ export default function Header() {
         }
     }}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <Link to={'/'}>
-              <img
-              src={Logo}
-              width={80}
-              alt="Podcast"
-              loading="lazy"
-              />
-          </Link>
+          <Box sx={{ flexGrow: 1 }}>
+                <img
+                src={Logo}
+                width={80}
+                alt="Podcast"
+                loading="lazy"
+                />
           </Box>
-        {token?.user ? (
           <div>
             <IconButton
               size="large"
@@ -66,7 +63,7 @@ export default function Header() {
               onClick={handleMenu}
               color="inherit"
             >
-              <Avatar sx={{ bgcolor: '#E7F1F9', width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 } }} src='/2.jpg' alt='Malebo'/>
+              <Avatar sx={{ backgroundColor: '#E7F1F9', width: { xs: 40, sm: 50 }, height: { xs: 40, sm: 50 } }} src='/2.jpg' alt={ fullName }/>
             </IconButton>
             <Menu
               sx={{ mt: '45px' }}
@@ -84,13 +81,12 @@ export default function Header() {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
-              <MenuItem onClick={() => navigate('/favourates')}>My favourites</MenuItem>
-              <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
-              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+              <MenuItem onClick={() => { navigate('/home'); handleClose(); }}>Home</MenuItem>
+              <MenuItem onClick={() => { navigate('/favourates'); handleClose(); }}>My favourites</MenuItem>
+              <MenuItem onClick={() => { navigate('/settings'); handleClose(); }}>Settings</MenuItem>
+              <MenuItem onClick={() => { handleSignOut(); handleClose(); }}>Sign Out</MenuItem>
             </Menu>
           </div>
-        ) : null }
       </Toolbar>
     </AppBar>
   );

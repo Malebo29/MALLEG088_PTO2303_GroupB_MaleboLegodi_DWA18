@@ -42,7 +42,7 @@ const SignUpForm = () => {
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: 'http://localhost:5173/login',
+          emailRedirectTo: 'https://streamerpodcast.netlify.app/',
           data: {
             first_name: formData.firstName,
             last_name: formData.lastName

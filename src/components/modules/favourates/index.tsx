@@ -3,12 +3,13 @@ import { FavoriteProps } from '../../../utils/type'
 import { useState } from 'react'
 import { useShowsContext } from '../../../context/ShowsContext';
 import { supabase } from '../../../auth/supabase.service';
+import { Store } from 'react-notifications-component';
 
 const Favourate = (episode: FavoriteProps) =>{  
     const [readMore, setReadMore] = useState(false);
-    const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
+    const { favouriteEpisodes , setFavourites} = useShowsContext();
 
-    const handleRemoveFromFavourates = async (
+    const handleRemoveEpisode = async (
         episodeId: number,
         seasonId: number,
         showTitle: string
@@ -19,22 +20,42 @@ const Favourate = (episode: FavoriteProps) =>{
         } else {
           newFavorites.push({ episodeId, seasonId, showTitle });
         }
-    
-        setFavouriteEpisodes(newFavorites);
 
-        const userId = (await supabase.auth.getUser()).data.user?.id; // remove from database
+        const id = await (await supabase.auth.getUser()).data.user?.id
+
         const { error } = await supabase
-        .from('user_favourates')
-        .delete()
-        .eq('episodeId', episodeId)
-        .eq('userId', userId);
+          .from('user_favourates')
+          .delete()
+          .eq('showTitle', showTitle)
+          .eq('seasonId', seasonId)
+          .eq('episodeId', episodeId)
+          .eq('userId', id)
+    
+        if (error) console.log(error.message)
+    
+        Store.addNotification({
+          title: <Typography variant='h5'>You just removed {episode.episodeTitle} episode of {episode.showTitle} from Favourates</Typography>,
+          type: 'info',
+          container: 'center',
+          message: 'Successfully removed favourates ',
+          animationIn: ['animated', 'fadeIn'],
+          animationOut: ['animated', 'fadeOut'],
+          dismiss: { duration: 4000, onScreen: true },
+        })
+        
+        const { data } = await supabase
+          .from('user_favourates')
+          .select()
+          .eq('userId', id)
 
-        if (error) console.log(error.message);
-    }
+          if(error) throw new Error("Error: "+ error.message)
+
+          setFavourites(data)
+
+      }
 
     return (
         <Box sx={{display:'flex', flexDirection:'column', alignItems: 'center' }}>
-
             <Divider /> {<Chip label={`Season: ${episode.seasonId}`} sx={{ alignSelf: 'center' }}/>}  <Divider />
             <Typography variant='h6'>{episode.showTitle}</Typography>
             <Typography variant='h6'>{episode.episodeTitle}</Typography>
@@ -65,17 +86,16 @@ const Favourate = (episode: FavoriteProps) =>{
             <Box sx={{display:'flex', flexDirection: 'column', justifyContent:'space-between', width: '100%'}}>
             
             <Box sx={{display:'flex', justifyContent:'space-between', width: '100%'}}>
-                <Button>Play</Button>
                 <Typography variant='body2'>Updated: 
                     {new Date(episode.lastUpdatedShowDate).toLocaleDateString('en-GB', 
+                    { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+                    <Typography variant='body2'>Favoured Date: 
+                    {new Date(episode.favoredDate).toLocaleDateString('en-GB',
                     { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
             </Box>
 
             <Box sx={{display:'flex', justifyContent:'space-between', width: '100%'}}>
-                <Button onClick={() => handleRemoveFromFavourates(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove</Button>
-                <Typography variant='body2'>Favoured Date: 
-                    {new Date(episode.favoredDate).toLocaleDateString('en-GB',
-                    { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+                <Button onClick={() => handleRemoveEpisode(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove</Button>
             </Box>
         </Box>
         </Box>
