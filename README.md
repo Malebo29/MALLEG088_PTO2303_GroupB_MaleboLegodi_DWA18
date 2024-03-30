@@ -1,32 +1,50 @@
-https://streamerpodcast.netlify.app/
+# Podcast App
 
-# React + TypeScript + Vite
+## Project Description
+This project is a podcast app that allows users to browse various podcast shows, play episodes, and track their favourite episodes. The goal is to provide a seamless and intuitive user experience for podcast enthusiasts.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Demo
+The project is deployed on Netlify. You can access it here #https://streamerpodcast.netlify.app/.
 
-Currently, two official plugins are available:
+## Features
+- **ShowPreview**: Displays a preview of a podcast show.
+- **Header**: Contains the navigation menu and user profile information.
+- **Filter**: Allows users to filter shows by genre.
+- **Carousel**: Displays a carousel of featured shows.
+- **AudioPlayer**: Allows users to play podcast episodes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Modules
+- **Favourites**: Allows users to view and manage their favourite shows.
+- **Forgot Password**: Allows users to reset their password.
+- **Listening History**: Allows users to view their listening history.
+- **Login**: Allows users to log in to their account.
+- **Settings**: Allows users to update their account settings.
+- **SignUp**: Allows new users to create an account.
 
-## Expanding the ESLint configuration
+## Pages
+- **Favourites Page**: Displays the user's favourite shows.
+- **Forgot Password Page**: Allows users to reset their password.
+- **Listening History Page**: Displays the user's listening history.
+- **Login Page**: Allows users to log in to their account.
+- **Settings Page**: Allows users to update their account settings.
+- **SignUp Page**: Allows new users to create an account.
+- **Show Details Page**: Displays the details of a specific show.
+- **Home Page**: Displays a list of all shows.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Getting Started
+To get a local copy up and running, follow these steps:
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository.
+2. Install the dependencies with `npm install`.
+3. Start the development server with `npm start`.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Built With
+- React
+- TypeScript
+- Material-UI
+- Supabase
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Author
+- **Name**: Malebo Legodi
+- **Student Number**: MALLEG088
+- **Course**: Software Engineering Course 2024
