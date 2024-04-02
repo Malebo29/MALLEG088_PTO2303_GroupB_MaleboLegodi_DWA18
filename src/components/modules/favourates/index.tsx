@@ -59,19 +59,26 @@ const Favourate = (episode: FavoriteProps) => {
       <Container maxWidth="sm">
         
         <Divider variant="middle">
-          {<Chip label={`Season: ${episode.seasonId}`} 
-           sx={{
-            mt: 2,
-            mb: 2,
-            alignSelf: 'center',
-            fontSize: 15,
-            backgroundColor: "#A1CBFF56",
-            color: "#040736",
-          }}
-          />}
+            <Chip
+              color="primary" 
+              label={`Season: ${episode.seasonId}`} 
+              size="small"
+              sx={{ mt: 2, mb: 2, backgroundColor: "#2DD699", color: "#040736" }}
+            />
         </Divider>
 
-        <Card> 
+        <Card 
+          sx={{
+            maxWidth: 345,
+            display: "flex",
+            flexDirection: "column",
+            boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
+            border: "1px solid #E7F1F9",
+            borderRadius: "10px",
+            backgroundColor: "#A1CBFF26",
+            color: "#050A35"
+          }}
+        > 
 
           <CardHeader
             sx={{textAlign: 'center'}}
@@ -96,7 +103,7 @@ const Favourate = (episode: FavoriteProps) => {
                   <Typography variant='body2'>{episode.episodeDescription}</Typography>
                 </Collapse>
 
-                <Button onClick={() => setReadMore(!readMore)}>
+                <Button variant='text' sx={{color: '#050A35'}} onClick={() => setReadMore(!readMore)}>
                   {readMore ? 'Read Less' : 'Read More'}
                 </Button>
 
@@ -107,7 +114,7 @@ const Favourate = (episode: FavoriteProps) => {
           <Divider />
           
           <CardActions>
-            <Button onClick={() => handleRemoveEpisode(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove</Button>
+            <Button sx={{color: '#050A35'}} onClick={() => handleRemoveEpisode(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove Episode</Button>
           </CardActions>
 
         </Card>
