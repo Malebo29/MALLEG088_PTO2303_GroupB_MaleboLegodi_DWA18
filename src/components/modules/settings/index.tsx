@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useShowsContext } from '../../../context/ShowsContext';
 import { ArrowBack, Bookmarks, KeyboardArrowRight, ManageHistory } from '@mui/icons-material';
 import { supabase } from '../../../auth/supabase.service';
+import Cookies from 'js-cookie';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -26,10 +27,9 @@ const Settings = () => {
     setNotifications(event.target.checked);
   };
 
-
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    sessionStorage.removeItem('token');
+    Cookies.remove("_streamerSession")
     navigate('/');
   };
   

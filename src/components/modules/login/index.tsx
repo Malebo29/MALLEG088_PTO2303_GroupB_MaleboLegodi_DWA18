@@ -1,13 +1,14 @@
 import { z } from 'zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
 import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled } from '@mui/material'
 import Carousel from '../../carousel/Carousel'
 import Logo from '/android-chrome-192x192.png';
 import { useShowsContext } from '../../../context/ShowsContext'
-
+import { useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 const StyledContainer = styled(Container)({
     display: 'flex',
@@ -25,7 +26,6 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>
 
 const SigninForm = () => {
-
     const { 
         register, 
         handleSubmit,
@@ -33,7 +33,10 @@ const SigninForm = () => {
         setError } = useForm<FormFields>();
     
     const navigate = useNavigate()
-    const { setToken } = useShowsContext()
+    const location = useLocation()
+
+    const from = location.state?.from?.pathname || "/home"
+    const { token, setToken } = useShowsContext()
 
     const onSubmit: SubmitHandler<FormFields> = async(formData)=>{
         try {
@@ -46,8 +49,8 @@ const SigninForm = () => {
                 throw new AuthError(error.message, error.status)
             }
             setToken(data.session)
-            
-            navigate('/home', { replace: true,})
+            Cookies.set('_streamerSession', JSON.stringify(data.session))
+            navigate(from, { replace: true,})
             
         } catch (error) {
             console.log(error)
@@ -59,7 +62,12 @@ const SigninForm = () => {
             })
         }
     }
-
+    
+    useEffect(() => {
+      if(token) navigate(from, {replace: true})
+      
+    }, [token, from])
+    
   return (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="center">
         <Container maxWidth="sm"> 

@@ -33,11 +33,13 @@ const ShowDetails = () => {
   const [show, setShow] = useState<ShowDetail | null>(null);
   const [episodes, setEpisodes] = useState<Episode[]>([])
   const [currentFile, setCurrentFile] = useState<Episode | null>(null)
-  const [playProgress, setPlayProgress] = useState<{ [id: string]: number }>({})
+const [playProgress, setPlayProgress] = useState<{ [id: string]: number }>({})
   const [playStatus, setPlayStatus] = useState(false);
   const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
 
   console.log(episodes)
+  console.log(favouriteEpisodes)
+
   const handleAddToFavourates = async (
     episodeId: number,
     episodeTitle: string,
@@ -47,29 +49,19 @@ const ShowDetails = () => {
     showTitle: string,
     lastUpdatedShowDate: string,
   ) => {
-
-    let newFavorites = [...favouriteEpisodes];
-    if (JSON.stringify(newFavorites).includes(JSON.stringify({ episodeId, seasonId, showTitle }))) {
-      newFavorites = newFavorites.filter(id => id.episodeId !== { episodeId, seasonId, showTitle }.episodeId)
-    } else {
-      newFavorites.push({ episodeId, seasonId, showTitle });
-    }
-
-    setFavouriteEpisodes(newFavorites);
-
-    {
-      const { error } = await supabase
-        .from('user_favourates')
-        .insert([{
-          episodeId: episodeId,
-          episodeTitle: episodeTitle,
-          episodeDescription: episodeDescription,
-          seasonId: seasonId,
-          seasonImage,
-          showTitle: showTitle,
-          lastUpdatedShowDate: lastUpdatedShowDate,
-          userId: (await supabase.auth.getUser()).data.user?.id
-        }])
+   
+    const { error } = await supabase
+      .from('user_favourates')
+      .insert([{
+        episodeId: episodeId,
+        episodeTitle: episodeTitle,
+        episodeDescription: episodeDescription,
+        seasonId: seasonId,
+        seasonImage,
+        showTitle: showTitle,
+        lastUpdatedShowDate: lastUpdatedShowDate,
+        userId: (await supabase.auth.getUser()).data.user?.id
+      }])
 
       if (error) console.log(error.message)
 
@@ -81,8 +73,7 @@ const ShowDetails = () => {
         animationIn: ['animated', 'fadeIn'],
         animationOut: ['animated', 'fadeOut'],
         dismiss: { duration: 4000, onScreen: true },
-      })
-    }
+      })    
   }
 
   const handleRemoveFavourates = async (
@@ -90,16 +81,6 @@ const ShowDetails = () => {
     seasonId: number,
     showTitle: string
   ) => {
-    let newFavorites = [...favouriteEpisodes];
-    if (JSON.stringify(newFavorites).includes(JSON.stringify({ episodeId, seasonId, showTitle }))) {
-      newFavorites = newFavorites.filter(id => id.episodeId !== { episodeId, seasonId, showTitle }.episodeId)
-    } else {
-      newFavorites.push({ episodeId, seasonId, showTitle });
-    }
-
-    setFavouriteEpisodes(newFavorites);
-
-
     const { error } = await supabase
       .from('user_favourates')
       .delete()
@@ -173,6 +154,26 @@ const ShowDetails = () => {
     };
     fetchShow();
   }, [showId, selectedSeason]);
+
+  useEffect(() => {
+    const fetchFavourites = async() => {
+      const userId = await (await supabase.auth.getUser()).data.user?.id
+      console.log(userId)
+      const { data, error} = await supabase
+      .from('user_favourates')
+      .select('episodeId, seasonId, showTitle')
+      .eq('userId', userId)
+
+      if(error) console.log(error)
+      console.log(data)
+      setFavouriteEpisodes(data!)
+  }
+
+  fetchFavourites()
+  
+   
+  }, [])
+  
 
   if (loading || !show) {
     return <div>Loading...</div>;

@@ -4,6 +4,7 @@ import { supabase } from "../../auth/supabase.service";
 import { useLocation, useNavigate } from 'react-router-dom';
 import React from 'react';
 import { useShowsContext } from '../../context/ShowsContext';
+import Cookies from 'js-cookie';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
@@ -23,7 +24,7 @@ export default function Header() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    sessionStorage.removeItem('token');
+    Cookies.remove("_streamerSession")
     navigate('/');
   };
 

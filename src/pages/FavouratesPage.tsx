@@ -31,6 +31,8 @@ const FavouratesPage = () => {
     return groups;
   }, {} as Record<string, FavoriteProps[]>);
 
+  console.log(groupedFavourates)
+
   useEffect(() => {
     const fetchFavourites = async () => {
       const userId = await (await supabase.auth.getUser()).data.user?.id
@@ -87,17 +89,18 @@ const FavouratesPage = () => {
 
         <Box sx={{ mt: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
-          {!groupedFavourates.lenght ? <Card>
-            <CardContent>
-              <Typography variant='h5'>Your favourate shows list is currently empty. This page gets populated whenever you like an episode show.</Typography>
-            </CardContent>
-          </Card> : groupedFavourates && Object.entries(groupedFavourates).map(([showTitle, favs]) => (
+          {Object.entries(groupedFavourates).length ? groupedFavourates && Object.entries(groupedFavourates).map(([showTitle, favs]) => (
             <Box key={showTitle}>
               <Typography variant='h4'>{showTitle}</Typography>
               {favs.map((fav, index) => <Favourate key={index} {...fav} />)}
             </Box>
-          )
-          )}
+          ) 
+          ) : <Card>
+          <CardContent>
+            <Typography variant='h5'>Your favourate shows list is currently empty. This page gets populated whenever you like an episode show.</Typography>
+          </CardContent>
+        </Card>
+        }
 
         </Box>
 

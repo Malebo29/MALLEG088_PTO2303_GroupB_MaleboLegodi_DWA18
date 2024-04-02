@@ -87,7 +87,7 @@ const ListeningHistoryPage = () => {
                     Your listening history is currently empty. This page gets populated whenever you listen to an episode.</Typography>
                 </CardContent>
               </Card>
-              : history?.map((item: HistoryProps) => <ListeningHistory {...item} />)}
+              : history?.map((item: HistoryProps, index: number) => <ListeningHistory {...item} key={index}/>)}
 
           </Box>
         </Box>

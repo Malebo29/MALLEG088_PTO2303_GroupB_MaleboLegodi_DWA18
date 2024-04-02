@@ -7,9 +7,10 @@ import {
 import { useEffect, useState } from "react";
 import { useShowsContext } from "../../context/ShowsContext";
 import { CarouselPreview } from "./CarouselPreview";
+import { getShows } from "../../api";
 
 const Carousel = () => {
-  const { shows } = useShowsContext();
+  const { shows, setShows } = useShowsContext();
   const [currentPage, setCurrentPage] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -29,6 +30,15 @@ const Carousel = () => {
     }, 3000); // Change page every 3 seconds
     return () => clearTimeout(timer); // Clean up on component unmount
   }, [currentPage]);
+
+  useEffect(() => {
+    const fetchShows = async () => {
+    const data = await getShows('https://podcast-api.netlify.app/shows');
+    setShows(data);
+    };
+    
+    fetchShows();
+}, []);
 
   return (
     <Box
