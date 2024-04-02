@@ -1,107 +1,117 @@
-import { Box, Button, CardMedia, Chip, Collapse, Divider, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, Container, Divider, IconButton, Typography } from '@mui/material'
 import { FavoriteProps } from '../../../utils/type'
 import { useState } from 'react'
 import { useShowsContext } from '../../../context/ShowsContext';
 import { supabase } from '../../../auth/supabase.service';
 import { Store } from 'react-notifications-component';
 
-const Favourate = (episode: FavoriteProps) =>{  
-    const [readMore, setReadMore] = useState(false);
-    const { favouriteEpisodes , setFavourites} = useShowsContext();
+const Favourate = (episode: FavoriteProps) => {
+  const [readMore, setReadMore] = useState(false);
+  const { favouriteEpisodes, setFavourites } = useShowsContext();
 
-    const handleRemoveEpisode = async (
-        episodeId: number,
-        seasonId: number,
-        showTitle: string
-      ) => {
-        let newFavorites = [...favouriteEpisodes];
-        if (JSON.stringify(newFavorites).includes(JSON.stringify({ episodeId, seasonId, showTitle }))) {
-          newFavorites = newFavorites.filter(id => id.episodeId !== { episodeId, seasonId, showTitle }.episodeId)
-        } else {
-          newFavorites.push({ episodeId, seasonId, showTitle });
-        }
+  const handleRemoveEpisode = async (
+    episodeId: number,
+    seasonId: number,
+    showTitle: string
+  ) => {
+    let newFavorites = [...favouriteEpisodes];
+    if (JSON.stringify(newFavorites).includes(JSON.stringify({ episodeId, seasonId, showTitle }))) {
+      newFavorites = newFavorites.filter(id => id.episodeId !== { episodeId, seasonId, showTitle }.episodeId)
+    } else {
+      newFavorites.push({ episodeId, seasonId, showTitle });
+    }
 
-        const id = await (await supabase.auth.getUser()).data.user?.id
+    const id = await (await supabase.auth.getUser()).data.user?.id
 
-        const { error } = await supabase
-          .from('user_favourates')
-          .delete()
-          .eq('showTitle', showTitle)
-          .eq('seasonId', seasonId)
-          .eq('episodeId', episodeId)
-          .eq('userId', id)
-    
-        if (error) console.log(error.message)
-    
-        Store.addNotification({
-          title: <Typography variant='h5'>You just removed {episode.episodeTitle} episode of {episode.showTitle} from Favourates</Typography>,
-          type: 'info',
-          container: 'center',
-          message: 'Successfully removed favourates ',
-          animationIn: ['animated', 'fadeIn'],
-          animationOut: ['animated', 'fadeOut'],
-          dismiss: { duration: 4000, onScreen: true },
-        })
+    const { error } = await supabase
+      .from('user_favourates')
+      .delete()
+      .eq('showTitle', showTitle)
+      .eq('seasonId', seasonId)
+      .eq('episodeId', episodeId)
+      .eq('userId', id)
+
+    if (error) console.log(error.message)
+
+    Store.addNotification({
+      title: <Typography variant='h5'>You just removed {episode.episodeTitle} episode of {episode.showTitle} from Favourates</Typography>,
+      type: 'info',
+      container: 'center',
+      message: 'Successfully removed favourates ',
+      animationIn: ['animated', 'fadeIn'],
+      animationOut: ['animated', 'fadeOut'],
+      dismiss: { duration: 4000, onScreen: true },
+    })
+
+    const { data } = await supabase
+      .from('user_favourates')
+      .select()
+      .eq('userId', id)
+
+    if (error) throw new Error("Error: " + error.message)
+
+    setFavourites(data)
+
+  }
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}}>
+      <Container maxWidth="sm">
         
-        const { data } = await supabase
-          .from('user_favourates')
-          .select()
-          .eq('userId', id)
+        <Divider variant="middle">
+          {<Chip label={`Season: ${episode.seasonId}`} 
+           sx={{
+            mt: 2,
+            mb: 2,
+            alignSelf: 'center',
+            fontSize: 15,
+            backgroundColor: "#A1CBFF56",
+            color: "#040736",
+          }}
+          />}
+        </Divider>
 
-          if(error) throw new Error("Error: "+ error.message)
+        <Card> 
 
-          setFavourites(data)
+          <CardHeader>
+              <Typography variant='h6'>{episode.showTitle}</Typography>
+              <Typography variant='body2'>{episode.episodeTitle}</Typography>
+              <Typography variant='body2'>Updated:
+                {new Date(episode.lastUpdatedShowDate).toLocaleDateString('en-GB',
+                  { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+          </CardHeader>
 
-      }
+          <CardMedia
+                component="img"
+                height="194"
+                image={episode.seasonImage}
+                alt={episode.seasonImage}
+                sx={{ borderRadius: '2px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)' }}
+          />
 
-    return (
-        <Box sx={{display:'flex', flexDirection:'column', alignItems: 'center' }}>
-            <Divider /> {<Chip label={`Season: ${episode.seasonId}`} sx={{ alignSelf: 'center' }}/>}  <Divider />
-            <Typography variant='h6'>{episode.showTitle}</Typography>
-            <Typography variant='h6'>{episode.episodeTitle}</Typography>
-            <Divider />
+          <CardContent>
+                <Collapse in={readMore} collapsedSize={40}>
+                  <Typography variant='body2'>{episode.episodeDescription}</Typography>
+                </Collapse>
 
-            <Box sx={{display:'flex', flexDirection:'row'}}>
+                <Button onClick={() => setReadMore(!readMore)}>
+                  {readMore ? 'Read Less' : 'Read More'}
+                </Button>
 
-                <Box sx={{display:'flex', flexDirection:'row'}}>
-                <CardMedia
-                    component="img"
-                    image={episode.seasonImage}
-                    alt={episode.seasonImage}
-                    sx={{ width: '20%', height: 'auto', borderRadius: '10px', boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)' }}
-                />
-                </Box>
-                
-                <Box>
-                    <Collapse in={readMore} collapsedSize={140}>
-                    <Typography variant='body2'>{episode.episodeDescription}</Typography>
-                    </Collapse>
+                <Typography variant='body2'>Favoured Date:
+                {new Date(episode.favoredDate).toLocaleDateString('en-GB',
+                  { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
+          </CardContent>
+          <Divider />
+          
+          <CardActions>
+            <Button onClick={() => handleRemoveEpisode(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove</Button>
+          </CardActions>
 
-                    <Button onClick={() => setReadMore(!readMore)}>
-                        {readMore ? 'Read Less' : 'Read More'}
-                    </Button>
-                </Box>
-            </Box>
+        </Card>
 
-            <Box sx={{display:'flex', flexDirection: 'column', justifyContent:'space-between', width: '100%'}}>
-            
-            <Box sx={{display:'flex', justifyContent:'space-between', width: '100%'}}>
-                <Typography variant='body2'>Updated: 
-                    {new Date(episode.lastUpdatedShowDate).toLocaleDateString('en-GB', 
-                    { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
-                    <Typography variant='body2'>Favoured Date: 
-                    {new Date(episode.favoredDate).toLocaleDateString('en-GB',
-                    { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
-            </Box>
-
-            <Box sx={{display:'flex', justifyContent:'space-between', width: '100%'}}>
-                <Button onClick={() => handleRemoveEpisode(episode.episodeId, episode.seasonId, episode.showTitle)}>Remove</Button>
-            </Box>
-        </Box>
-        </Box>
-
-
-    )
+      </Container>
+    </Box>
+  )
 }
-
 export default Favourate

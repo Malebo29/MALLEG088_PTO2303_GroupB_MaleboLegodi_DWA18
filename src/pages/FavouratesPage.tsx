@@ -87,11 +87,11 @@ const FavouratesPage = () => {
               </FormControl>
         </Box>
 
-        <Box sx={{ mt: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Box sx={{ mt: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 
           {Object.entries(groupedFavourates).length ? groupedFavourates && Object.entries(groupedFavourates).map(([showTitle, favs]) => (
-            <Box key={showTitle}>
-              <Typography variant='h4'>{showTitle}</Typography>
+            <Box key={showTitle} sx={{mt: 2, fontWeight: 'bold'}}>
+              <Typography variant='h6' sx={{ textAlign: 'center'}}>{showTitle}</Typography>
               {favs.map((fav, index) => <Favourate key={index} {...fav} />)}
             </Box>
           ) 
