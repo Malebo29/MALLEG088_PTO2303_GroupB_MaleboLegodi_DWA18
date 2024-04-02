@@ -73,13 +73,15 @@ const Favourate = (episode: FavoriteProps) => {
 
         <Card> 
 
-          <CardHeader>
-              <Typography variant='h6'>{episode.showTitle}</Typography>
-              <Typography variant='body2'>{episode.episodeTitle}</Typography>
-              <Typography variant='body2'>Updated:
-                {new Date(episode.lastUpdatedShowDate).toLocaleDateString('en-GB',
-                  { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
-          </CardHeader>
+          <CardHeader
+            sx={{textAlign: 'center'}}
+            title={episode.showTitle}
+            subheader={episode.episodeTitle}
+          />
+          <Divider />
+            <Typography variant='body2' sx={{mb: 1, mt: 1, textAlign: 'center', fontWeight: 'bold'}}>Updated: 
+                 {new Date(episode.lastUpdatedShowDate).toLocaleDateString('en-GB',
+                { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
 
           <CardMedia
                 component="img"
