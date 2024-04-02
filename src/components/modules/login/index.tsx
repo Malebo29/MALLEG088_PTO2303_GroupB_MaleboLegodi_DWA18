@@ -5,7 +5,7 @@ import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
 import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Stack, Container, styled } from '@mui/material'
 import Carousel from '../../carousel/Carousel'
-import Logo from '../../../../public/android-chrome-192x192.png';
+import Logo from '/android-chrome-192x192.png';
 import { useShowsContext } from '../../../context/ShowsContext'
 
 

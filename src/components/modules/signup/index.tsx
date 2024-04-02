@@ -3,14 +3,14 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../../../auth/supabase.service'
 import { AuthError } from '@supabase/supabase-js'
-import Logo from '../../../../public/android-chrome-192x192.png';
+import Logo from '/android-chrome-192x192.png';
 import { FormControl, InputLabel, FilledInput, Typography, Button, Container, Grid, styled, Box } from '@mui/material'
 
 const StyledContainer = styled(Container)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  height: '100vhS',
+  minHeight: '100vh',
 });
 
 const schema = z.object({
@@ -55,6 +55,7 @@ const SignUpForm = () => {
       }
       // alert('Please check your email inbox to confirm your registration')
       navigate("/")
+
     } catch (error) {
       console.log(error)
       setError("root", {
@@ -66,9 +67,9 @@ const SignUpForm = () => {
     }
   }
   return (
-    <StyledContainer maxWidth="sm" sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
-      <Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
+    <StyledContainer>
+      <Box maxWidth="sm">
+        <Box sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
           <img
             src={Logo}
             width={100}

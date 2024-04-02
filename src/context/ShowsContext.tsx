@@ -15,11 +15,11 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
 
     const playerRef = useRef<HTMLAudioElement>(null)
 
-    const [sort, setSort] = useState('');
+    const [sort, setSort] = useState<string | undefined>(undefined);
     const [search, setSearch] = useState('');
 
-    const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-    const [sortOption, setSortOption] = useState('');
+    const [selectedGenre, setSelectedGenre] = useState<number | undefined>(undefined);
+    const [sortOption, setSortOption] = useState<'titleAZ' | 'titleZA' | 'dateAsc' | 'dateDesc' | undefined>(undefined);
 
    return (
     <ShowsContext.Provider 

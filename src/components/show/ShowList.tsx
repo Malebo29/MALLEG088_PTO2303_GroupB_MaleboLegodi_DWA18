@@ -57,7 +57,7 @@ const ShowList = () => {
   return (
         <Grid container spacing={2} sx={{display: 'flex', justifyContent:'center'}}>
            {sortedAndFilteredShows.map((show: Show)=>
-               <Grid columns={{sm:4}}>
+               <Grid key={show.id} columns={{sm:4}}>
                    <ShowPreview {...show}/>
                </Grid>
            )}

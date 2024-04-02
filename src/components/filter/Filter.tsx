@@ -49,14 +49,14 @@ const Filter = () => {
                     <InputLabel id="genre-label" sx={{color: '#000'}}>Filter by Genre</InputLabel>
                     <Select
                         labelId="genre-label"
-                        value={selectedGenre}
+                        value={selectedGenre || ""}
                         onChange={handleGenreChange}
                         label="Filter by Genre"
                         sx={{color: '#000'}}
                     >
                         <MenuItem value=""><em>None</em></MenuItem>
                         {Object.entries(genreMap).map(([key, value]) => (
-                        <MenuItem value={Number(key)}>{value}</MenuItem>
+                        <MenuItem key={key} value={Number(key)}>{value}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>

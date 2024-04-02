@@ -108,7 +108,7 @@ const Settings = () => {
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Bookmarks />
                     <Tooltip title="Your tailored experience: Manage your favorites shows for personalised recommendations.">
-                      <Button variant="text" component={Link} to="/favourites">Favourates Management</Button>
+                      <Button variant="text" component={Link} to="/favourates">Favourates Management</Button>
                     </Tooltip>
                   <KeyboardArrowRight />
                 </Box>

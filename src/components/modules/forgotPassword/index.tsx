@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { supabase } from '../../../auth/supabase.service'
 import { FormControl, InputLabel, FilledInput, Typography, Button, Box, Container, styled } from '@mui/material'
-import Logo from '../../../../public/android-chrome-192x192.png';
+import Logo from '/android-chrome-192x192.png';
 import Carousel from '../../carousel/Carousel';
 
 const StyledContainer = styled(Container)({

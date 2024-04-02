@@ -21,8 +21,8 @@ export type ShowsContextType = {
     selectedSeason: number;
     setSelectedSeason: React.Dispatch<React.SetStateAction<number>>;
 
-    sort: string;
-    setSort: React.Dispatch<React.SetStateAction<string>>;
+    sort: string | undefined;
+    setSort: React.Dispatch<React.SetStateAction<string | undefined>>;
 
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
@@ -30,11 +30,11 @@ export type ShowsContextType = {
     token: Session | null;
     setToken: React.Dispatch<React.SetStateAction<Session | null>>;
 
-    selectedGenre: number | null;
-    setSelectedGenre: React.Dispatch<React.SetStateAction<number | null>>;
+    selectedGenre: number | undefined;
+    setSelectedGenre: React.Dispatch<React.SetStateAction<number | undefined>>;
 
-    sortOption: string;
-    setSortOption: React.Dispatch<React.SetStateAction<string>>;
+    sortOption: 'titleAZ' | 'titleZA' | 'dateAsc' | 'dateDesc' | undefined;
+    setSortOption: React.Dispatch<React.SetStateAction<'titleAZ' | 'titleZA' | 'dateAsc' | 'dateDesc' | undefined>>;
 
     loading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;

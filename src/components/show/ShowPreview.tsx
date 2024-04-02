@@ -117,6 +117,7 @@ const ShowPreview = (show: Show) => {
         <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap" }}>
           {show.genres.map((genre: number) => (
             <Chip
+              key={genre}
               label={Object.values(genreMap)[genre - 1]}
               size="small"
               sx={{
