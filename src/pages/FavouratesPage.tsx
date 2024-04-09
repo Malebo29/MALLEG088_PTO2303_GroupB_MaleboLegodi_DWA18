@@ -10,6 +10,7 @@ import { supabase } from '../auth/supabase.service'
 const FavouratesPage = () => {
   const navigate = useNavigate();
   const { favourites, setFavourites, sortOption,  setSortOption } = useShowsContext()
+  
 
   const sortedFavourates = [...(favourites || [])].sort((a, b) => {
     switch (sortOption) {
@@ -24,10 +25,14 @@ const FavouratesPage = () => {
     }
   });
 
+ 
   const groupedFavourates = sortedFavourates.reduce((groups, fav) => {
+    
     const group = (groups[fav.showTitle] || []);
     group.push(fav);
+
     groups[fav.showTitle] = group;
+  
     return groups;
   }, {} as Record<string, FavoriteProps[]>);
 
@@ -41,7 +46,7 @@ const FavouratesPage = () => {
         .from('user_favourates')
         .select("*")
         .eq('userId', userId)
-
+      console.log(new Date(data![0].favouredDate).getFullYear())
       if (error) console.log(error.message)
 
       setFavourites(data)

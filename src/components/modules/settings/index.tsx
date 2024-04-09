@@ -15,7 +15,7 @@ const Settings = () => {
   const [autoPlay, setAutoPlay] = useState(false);
   const [notifications, setNotifications] = useState(false);
   
-  const { playerRef }=  useShowsContext();
+  const { playerRef, setToken }=  useShowsContext();
 
   playerRef.autoplay = autoPlay;
 
@@ -29,7 +29,8 @@ const Settings = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    Cookies.remove("_streamerSession")
+    Cookies.remove("_streamerSession");
+    setToken(null);
     navigate('/');
   };
   
@@ -60,7 +61,7 @@ const Settings = () => {
                 <Typography variant="h4" sx={{ fontSize: '1.2rem' }}>{fullName}</Typography>
                 <Button variant="contained" color="secondary" component={Link} to="/"
                 onClick={() => { handleSignOut() }}
-                >Logout</Button>
+                >Sign Out</Button>
               </Box>
           </Box>
           </CardContent>

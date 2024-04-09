@@ -28,10 +28,11 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
             const cookieSession = Cookies.get('_streamerSession')
 
             if(cookieSession!=null && cookieSession!=undefined){
-                const { data: { session }, error } = await JSON.parse(cookieSession)
-
-            setToken(session)
-            if(error) console.log(error)
+                console.log(JSON.parse(cookieSession))
+                const session  = await JSON.parse(cookieSession)
+                console.log(session)
+                setToken(session)
+            //if(error) console.log(error)
             } else {
                 const userSession = await supabase.auth.getSession()
                 if(userSession != null)  {
@@ -44,7 +45,7 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
 
         getSession()
 
-    }, [token])
+    }, [])
     
    return (
     <ShowsContext.Provider 

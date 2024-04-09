@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, Container, Divider, IconButton, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, Collapse, Container, Divider, Typography } from '@mui/material'
 import { FavoriteProps } from '../../../utils/type'
 import { useState } from 'react'
 import { useShowsContext } from '../../../context/ShowsContext';
@@ -51,9 +51,9 @@ const Favourate = (episode: FavoriteProps) => {
     if (error) throw new Error("Error: " + error.message)
 
     setFavourites(data)
-
+    
   }
-
+ 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: "center"}}>
       <Container maxWidth="sm">
@@ -108,7 +108,7 @@ const Favourate = (episode: FavoriteProps) => {
                 </Button>
 
                 <Typography variant='body2'>Favoured Date:
-                {new Date(episode.favoredDate).toLocaleDateString('en-GB',
+                {new Date("2024-04-02T00:00:00").toLocaleDateString('en-GB',
                   { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
           </CardContent>
           <Divider />

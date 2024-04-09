@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
-  const { token } = useShowsContext()
+  const { token, setToken } = useShowsContext()
   const fullName = token?.user.user_metadata.first_name + " " + token?.user.user_metadata.last_name;
 
   const navigate = useNavigate();
@@ -24,7 +24,8 @@ export default function Header() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    Cookies.remove("_streamerSession")
+    Cookies.remove("_streamerSession");
+    setToken(null);
     navigate('/');
   };
 
