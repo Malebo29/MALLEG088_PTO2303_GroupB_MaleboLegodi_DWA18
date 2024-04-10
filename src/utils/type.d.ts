@@ -54,7 +54,7 @@ export type FavoriteProps = {
     seasonImage: string;
     showTitle: string   
     lastUpdatedShowDate: string
-    favoredDate: string
+    favouredDate: string
 }
 
 export type HistoryProps = {

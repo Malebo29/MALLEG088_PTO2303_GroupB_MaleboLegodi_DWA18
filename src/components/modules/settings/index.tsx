@@ -36,7 +36,7 @@ const Settings = () => {
   
   return (
 
-  <Box sx={{ pt: '100px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
+  <Box minHeight="100vh" sx={{ pt: '100px', display: 'flex', flexDirection: 'column', alignItems: "center"}}>
     <Container maxWidth="sm"> 
       <Box sx={{ pt: '10px', display: 'flex', flexDirection: 'column', alignItems: "center" }}>
       

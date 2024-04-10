@@ -36,8 +36,6 @@ const FavouratesPage = () => {
     return groups;
   }, {} as Record<string, FavoriteProps[]>);
 
-  console.log(groupedFavourates)
-
   useEffect(() => {
     const fetchFavourites = async () => {
       const userId = await (await supabase.auth.getUser()).data.user?.id
@@ -46,7 +44,6 @@ const FavouratesPage = () => {
         .from('user_favourates')
         .select("*")
         .eq('userId', userId)
-      console.log(new Date(data![0].favouredDate).getFullYear())
       if (error) console.log(error.message)
 
       setFavourites(data)

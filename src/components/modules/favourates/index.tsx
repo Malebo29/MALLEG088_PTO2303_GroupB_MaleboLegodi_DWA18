@@ -108,7 +108,7 @@ const Favourate = (episode: FavoriteProps) => {
                 </Button>
 
                 <Typography variant='body2'>Favoured Date:
-                {new Date("2024-04-02T00:00:00").toLocaleDateString('en-GB',
+                {new Date(episode.favouredDate).toLocaleDateString('en-GB',
                   { year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
           </CardContent>
           <Divider />

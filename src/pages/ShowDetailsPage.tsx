@@ -38,7 +38,7 @@ const ShowDetails = () => {
   const { favouriteEpisodes, setFavouriteEpisodes } = useShowsContext();
 
   console.log(episodes)
-  console.log(favouriteEpisodes)
+  // console.log(favouriteEpisodes)
 
   const handleAddToFavourates = async (
     episodeId: number,
