@@ -27,7 +27,7 @@ const ListeningHistoryPage = () => {
       title: <Typography variant='h5'>History</Typography>,
       type: 'info',
       container: 'center',
-      message: 'Successfully cleared all your listening history. ',
+      message: 'You have successfully cleared all your listening history.',
       animationIn: ['animated', 'fadeIn'],
       animationOut: ['animated', 'fadeOut'],
       dismiss: { duration: 4000, onScreen: true },

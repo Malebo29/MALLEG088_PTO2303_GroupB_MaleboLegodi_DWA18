@@ -28,9 +28,9 @@ export const ShowsContextProvider: React.FC<{children: ReactNode, initialShowLis
             const cookieSession = Cookies.get('_streamerSession')
 
             if(cookieSession!=null && cookieSession!=undefined){
-                console.log(JSON.parse(cookieSession))
+                // console.log(JSON.parse(cookieSession))
                 const session  = await JSON.parse(cookieSession)
-                console.log(session)
+                // console.log(session)
                 setToken(session)
             //if(error) console.log(error)
             } else {

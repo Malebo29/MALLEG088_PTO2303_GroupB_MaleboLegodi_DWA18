@@ -14,7 +14,7 @@ const Carousel = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const cardsPerPage = isMobile ? 1 : 4; // Display 1 card on mobile, 4 cards on larger screens
+  const cardsPerPage = isMobile ? 1 : 3; // Display 1 card on mobile, 3 cards on larger screens
 
   const handleNextPage = () => {
     if (currentPage >= Math.ceil(shows.length / cardsPerPage) - 1) {
@@ -97,7 +97,7 @@ const Carousel = () => {
                     index * cardsPerPage + cardsPerPage
                   )
                   .map((show) => (
-                    <Box key={show.id} sx={{ width: '100%' }}>
+                    <Box key={show.id} sx={{ width: '100%', m: 1 }}>
                       <CarouselPreview {...show} />
                     </Box>
                   ))}
